@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://install.xciot.com.sg/api/"
+const BASE_URL = "https://install.xciot.com.sg/api"
 
 const api = async (sensorID) => {
     try{
