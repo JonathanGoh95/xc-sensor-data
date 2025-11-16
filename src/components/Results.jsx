@@ -97,6 +97,7 @@ export default function Results(){
 
                             return (
                                 <div key={res.id} class="flex flex-col justify-center border-2 gap-2 text-center w-1/3 rounded-md">
+                                    <p><span class="font-bold">Sensor ID:</span> {res.sensor_id}</p>
                                     <p><span class="font-bold">Gateway ID:</span> {res.gateway_id}</p>
                                     <p><span class="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
                                     <p><span class="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
