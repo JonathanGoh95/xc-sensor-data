@@ -170,7 +170,7 @@ export default function Results(){
                 )}
             </div>
             <div class="flex justify-center text-2xl gap-6">
-                {results?.data.length > 0 ? <button onClick={handleRefresh} class="mt-4 border px-3 py-1 rounded">Refresh</button> : null}
+                {results?.data?.length > 0 ? <button onClick={handleRefresh} class="mt-4 border px-3 py-1 rounded">Refresh</button> : null}
                 <button onClick={handleBack} class="mt-4 border px-3 py-1 rounded">Back</button>
             </div>
             </>
