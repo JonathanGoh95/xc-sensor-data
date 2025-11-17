@@ -114,7 +114,10 @@ export default function Results(){
                         </div>
                     </>
                     ) : (
-                        <p class="text-center">No Results Found.</p>
+                        <>
+                            <p class="text-center">No Results Found.</p>
+                            <button onClick={handleBack} class="border px-3 py-1 rounded">Back</button>
+                        </>
                     )
                 )}
                 {/* Pagination controls (grouped page numbers, groups of 10) */}
