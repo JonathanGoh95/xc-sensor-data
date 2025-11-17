@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import * as apiService from '../services/getAPI'
 
 export default function Results(){
@@ -8,6 +8,13 @@ export default function Results(){
     const [page, setPage] = useState(1)
     const PAGE_SIZE = 10    // Results per Page
     const [loading, setLoading] = useState(false)
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -60,7 +67,7 @@ export default function Results(){
         const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE))
         const startIndex = (page - 1) * PAGE_SIZE
         const pageItems = data.slice(startIndex, startIndex + PAGE_SIZE)
-        const GROUP_SIZE = 10
+        const GROUP_SIZE = isMobile ? 5 : 10
         const groupStart = Math.floor((page - 1) / GROUP_SIZE) * GROUP_SIZE + 1
         const groupEnd = Math.min(totalPages, groupStart + GROUP_SIZE - 1)
         const pageNumbers = []
@@ -105,9 +112,9 @@ export default function Results(){
                                     <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-base">
                                         <p><span className="font-bold">Sensor ID:</span> {res.sensor_id}</p>
                                         <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
-                                        <p><span className="font-bold text-xs md:text-sm">Created At:</span> <span className="text-xs md:text-sm">{new Date(res.created_at).toLocaleString()}</span></p>
-                                        <p><span className="font-bold text-xs md:text-sm">Updated At:</span> <span className="text-xs md:text-sm">{new Date(res.updated_at).toLocaleString()}</span></p>
-                                        <p><span className="font-bold">Status:</span> <span className="text-xs md:text-sm">{statusMessage}</span></p>
+                                        <p><span className="font-bold">Created At:</span> <span>{new Date(res.created_at).toLocaleString()}</span></p>
+                                        <p><span className="font-bold">Updated At:</span> <span>{new Date(res.updated_at).toLocaleString()}</span></p>
+                                        <p><span className="font-bold">Status:</span> <span>{statusMessage}</span></p>
                                     </div>
                                 )
                             })}
@@ -147,7 +154,7 @@ export default function Results(){
                         {pageNumbers.map((num) => (
                             <button
                                 key={num}
-                                class={"px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page ? "bg-blue-600 text-white" : "hover:bg-gray-100 hidden sm:inline-block")}
+                                class={"px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page ? "bg-blue-600 text-white" : "hover:bg-gray-100")}
                                 onClick={() => setPage(num)}
                                 aria-current={num === page ? 'page' : undefined}
                             >
