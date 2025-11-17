@@ -48,10 +48,10 @@ export default function Results(){
 
     if (!searched){
         return(
-            <form class="flex items-center justify-center gap-4 mt-4" onSubmit={handleSubmit}>
-                <label class="text-bold text-2xl">Enter Sensor ID: </label>
-                <input class='border-2 text-3xl rounded-lg w-1/5 text-center' value={query} type='text' placeholder='Sensor ID' onChange={({target})=>setQuery(target.value)}></input>
-                <button class='border-2 text-3xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer' type="submit">Search</button>
+            <form class="flex items-center justify-center gap-4 mt-6" onSubmit={handleSubmit}>
+                <label class="font-bold italic text-2xl">Enter Sensor ID: </label>
+                <input class="border-2 text-2xl rounded-lg w-1/5 text-center" value={query} type='text' placeholder='Sensor ID' onChange={({target})=>setQuery(target.value)}></input>
+                <button class="border-2 text-2xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer italic" type="submit">Search</button>
             </form>
         )
         } else{
@@ -86,23 +86,23 @@ export default function Results(){
                             {results?.data?.length > 0 ? <button onClick={handleRefresh} class="mt-4 border px-3 py-1 rounded">Refresh</button> : null}
                             <button onClick={handleBack} class="mt-4 border px-3 py-1 rounded">Back</button>
                         </div>
-                        <div className="grid grid-cols-2 gap-4 w-3/5 justify-items-center">
+                        <div className="grid grid-cols-2 gap-4 w-3/4 justify-items-center">
                             {pageItems.map((res) => {
                                 const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4) || '';
 
                                 let statusMessage;
                                 if (statusRaw === "00FFFF") {
-                                    statusMessage = "Water Level is Normal";
+                                    statusMessage = `Water Level is Normal (${statusRaw})`;
                                 } else if (statusRaw === "FFFF00") {
-                                    statusMessage = "Water Level is Too High";
+                                    statusMessage = `Water Level is Too High (${statusRaw})`;
                                 } else if (statusRaw === "000000") {
-                                    statusMessage = "Water Level is Too Low";
+                                    statusMessage = `Water Level is Too Low (${statusRaw})`;
                                 } else {
-                                    statusMessage = "Anomaly/Sensor Issue Detected";
+                                    statusMessage = `Anomaly/Sensor Issue Detected (${statusRaw})`;
                                 }
 
                                 return (
-                                    <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-2 text-center w-full rounded-md max-w-xl">
+                                    <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-2 text-center w-full rounded-md max-w-2xl">
                                         <p><span className="font-bold">Sensor ID:</span> {res.sensor_id}</p>
                                         <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
                                         <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
