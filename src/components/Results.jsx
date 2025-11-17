@@ -48,9 +48,9 @@ export default function Results(){
 
     if (!searched){
         return(
-            <form class="flex items-center justify-center gap-4" onSubmit={handleSubmit}>
-                <label class="text-bold text-2xl">Sensor ID: </label>
-                <input class='border-2 text-3xl rounded-lg w-1/5 text-center' value={query} type='text' placeholder='Input Sensor ID...' onChange={({target})=>setQuery(target.value)}></input>
+            <form class="flex items-center justify-center gap-4 mt-4" onSubmit={handleSubmit}>
+                <label class="text-bold text-2xl">Enter Sensor ID: </label>
+                <input class='border-2 text-3xl rounded-lg w-1/5 text-center' value={query} type='text' placeholder='Sensor ID' onChange={({target})=>setQuery(target.value)}></input>
                 <button class='border-2 text-3xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer' type="submit">Search</button>
             </form>
         )
@@ -81,38 +81,45 @@ export default function Results(){
 
                 {!loading && (
                     results.success === 1 && data.length > 0 ? (
-                        pageItems.map((res) => {
-                            const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4) || '';
+                    <>
+                        <div class="flex justify-center text-2xl gap-6">
+                            {results?.data?.length > 0 ? <button onClick={handleRefresh} class="mt-4 border px-3 py-1 rounded">Refresh</button> : null}
+                            <button onClick={handleBack} class="mt-4 border px-3 py-1 rounded">Back</button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 w-3/5 justify-items-center">
+                            {pageItems.map((res) => {
+                                const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4) || '';
 
-                            let statusMessage;
-                            if (statusRaw === "00FFFF") {
-                                statusMessage = "Water Level is Normal";
-                            } else if (statusRaw === "FFFF00") {
-                                statusMessage = "Water Level is Too High";
-                            } else if (statusRaw === "000000") {
-                                statusMessage = "Water Level is Too Low";
-                            } else {
-                                statusMessage = "Anomaly/Sensor Issue Detected";
-                            }
+                                let statusMessage;
+                                if (statusRaw === "00FFFF") {
+                                    statusMessage = "Water Level is Normal";
+                                } else if (statusRaw === "FFFF00") {
+                                    statusMessage = "Water Level is Too High";
+                                } else if (statusRaw === "000000") {
+                                    statusMessage = "Water Level is Too Low";
+                                } else {
+                                    statusMessage = "Anomaly/Sensor Issue Detected";
+                                }
 
-                            return (
-                                <div key={res.id} class="flex flex-col justify-center border-2 gap-2 p-2 text-center w-1/3 rounded-md">
-                                    <p><span class="font-bold">Sensor ID:</span> {res.sensor_id}</p>
-                                    <p><span class="font-bold">Gateway ID:</span> {res.gateway_id}</p>
-                                    <p><span class="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
-                                    <p><span class="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
-                                    <p><span class="font-bold">Sensor Status:</span> {statusMessage}</p>
-                                </div>
-                            )
-                        })
+                                return (
+                                    <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-2 text-center w-full rounded-md max-w-xl">
+                                        <p><span className="font-bold">Sensor ID:</span> {res.sensor_id}</p>
+                                        <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
+                                        <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
+                                        <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
+                                        <p><span className="font-bold">Sensor Status:</span> {statusMessage}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </>
                     ) : (
                         <p class="text-center">No Results Found.</p>
                     )
                 )}
-
                 {/* Pagination controls (grouped page numbers, groups of 10) */}
                 {results.success === 1 && data.length > 0 && !loading && (
-                    <div class="flex items-center justify-center gap-2 mt-4 flex-wrap">
+                    <div class="flex items-center justify-center gap-2 m-4 flex-wrap">
                         {/* Prev page */}
                         <button
                             class="border px-3 py-1 rounded disabled:opacity-50"
@@ -168,10 +175,6 @@ export default function Results(){
                         <span class="ml-3">Page {page} of {totalPages}</span>
                     </div>
                 )}
-            </div>
-            <div class="flex justify-center text-2xl gap-6">
-                {results?.data?.length > 0 ? <button onClick={handleRefresh} class="mt-4 border px-3 py-1 rounded">Refresh</button> : null}
-                <button onClick={handleBack} class="mt-4 border px-3 py-1 rounded">Back</button>
             </div>
             </>
         )
