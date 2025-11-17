@@ -89,7 +89,7 @@ export default function Results(){
                 {!loading && (
                     results.success === 1 && data.length > 0 ? (
                     <>
-                        <div class="flex flex-col md:flex-row justify-center text-lg md:text-2xl gap-3 md:gap-6 w-full md:w-auto">
+                        <div class="flex flex-col md:flex-row justify-center text-lg md:text-2xl md:gap-4 w-full md:w-auto">
                             {results?.data?.length > 0 ? <button onClick={handleRefresh} class="mt-4 border px-3 py-1 rounded w-full md:w-auto">Refresh</button> : null}
                             <button onClick={handleBack} class="mt-4 border px-3 py-1 rounded w-full md:w-auto">Back</button>
                         </div>
