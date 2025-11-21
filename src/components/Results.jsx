@@ -3,15 +3,17 @@ import * as apiService from '../services/getAPI'
 import Search from "./Search"
 import Loading from "./Loading"
 import NoResults from "./NoResults"
-import Success from "./Success"
+import DWTSuccess from "./DWTSuccess"
+import BinSuccess from "./BinSuccess"
 import Pagination from "./Pagination"
 
 export default function Results(){
+    const [sensorType,setSensorType] = useState('')
     const [query,setQuery] = useState('')
     const [searched,setSearched] = useState(false)
     const [results,setResults] = useState([])
     const [page, setPage] = useState(1)
-    const PAGE_SIZE = 10    // Results per Page
+    const PAGE_SIZE = 12    // Results per Page
     const [loading, setLoading] = useState(false)
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
@@ -59,7 +61,7 @@ export default function Results(){
     }
 
     if (!searched){
-        return <Search handleSubmit={handleSubmit} query={query} setQuery={setQuery}/>
+        return <Search handleSubmit={handleSubmit} query={query} setQuery={setQuery} sensorType={sensorType} setSensorType={setSensorType}/>
     } else{
         // When results comes back it is expected to be an object like { success: 1, data: [...] }
         const data = results?.data || []
@@ -77,9 +79,15 @@ export default function Results(){
             <div className="flex flex-col items-center justify-center mt-5 text-lg md:text-2xl gap-4 px-4 md:px-0">
                 {loading ? <Loading /> : null}
                 {!loading && (
-                    results.success === 1 && data.length > 0 ? 
-                    <Success pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> : 
-                    <NoResults handleBack={handleBack}/>
+                    results.success === 1 && data.length > 0 ? (
+                        sensorType === "dwt" ? 
+                        <DWTSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "bin" ?
+                        <BinSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        <NoResults handleBack={handleBack}/>
+                    ) : (
+                        <NoResults handleBack={handleBack}/>
+                    )
                 )}
                 {/* Pagination controls (grouped page numbers, groups of 10) */}
                 {results.success === 1 && data.length > 0 && !loading && <Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages}/>}
