@@ -1,12 +1,12 @@
 import './App.css'
-import Results from './components/Results'
+import Authentication from './components/Authentication'
 import Title from './components/Title'
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-400 font-hanken">
       <Title />
-      <Results />
+      <Authentication />
     </div>
   )
 }
