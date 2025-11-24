@@ -1,4 +1,4 @@
-export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage,totalPages}){
+export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage,totalPages,dataLength}){
     return(
         <div className="flex items-center justify-center gap-2 m-4 flex-wrap text-xs md:text-sm lg:text-base">
             {/* Prev page */}
@@ -53,7 +53,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
                 Next
             </button>
 
-            <span className="ml-2 md:ml-3 text-xs md:text-sm">Page {page} of {totalPages}</span>
+            <span className="ml-2 md:ml-3 text-xs md:text-sm">Page {page} of {totalPages} ({dataLength} Results)</span>
         </div>
     )
 }

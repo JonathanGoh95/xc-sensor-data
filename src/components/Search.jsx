@@ -5,6 +5,7 @@ export default function Search({handleSubmit,query,setQuery,sensorType,setSensor
                 <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2" name="sensorType" value={sensorType} onChange={({target})=>setSensorType(target.value)}>
                     <option value="dwt">DWT Sensor</option>
                     <option value="bin">Bin Sensor</option>
+                    <option value="ked">KED Sensor</option>
                 </select>
                 <label className="font-bold italic text-xl md:text-2xl">Enter Sensor ID: </label>
                 <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={query} type='text' placeholder='Sensor ID' onChange={({target})=>setQuery(target.value)}></input>

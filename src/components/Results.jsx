@@ -5,6 +5,7 @@ import Loading from "./Loading"
 import NoResults from "./NoResults"
 import DWTSuccess from "./DWTSuccess"
 import BinSuccess from "./BinSuccess"
+import KEDSuccess from "./KEDSuccess"
 import Pagination from "./Pagination"
 
 export default function Results(){
@@ -84,13 +85,15 @@ export default function Results(){
                         <DWTSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "bin" ?
                         <BinSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "ked" ?
+                        <KEDSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>
                     )
                 )}
                 {/* Pagination controls (grouped page numbers, groups of 10) */}
-                {results.success === 1 && data.length > 0 && !loading && <Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages}/>}
+                {results.success === 1 && data.length > 0 && !loading && <Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages} dataLength={data.length}/>}
             </div>
             </>
         )
