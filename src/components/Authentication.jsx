@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import Results from "./Results"
 
 export default function Authentication(){
@@ -9,6 +9,16 @@ export default function Authentication(){
     const [showPass, setShowPass] = useState(false)
     // Vite exposes only env vars prefixed with VITE_ to client code
     const xcPass = import.meta.env.VITE_XC_ADMIN_PASS ?? ''
+
+    // 'Logs out' after 15 mins
+    useEffect(() => {
+    if (authenticated === true) {         
+        setTimeout(() => {
+            setAuthenticated(false)
+            setSubmitted(false)
+        }, 900000);
+        }
+    }, [authenticated])
     
     const handleAuth = (e) => {
         e.preventDefault()
