@@ -1,8 +1,8 @@
 export default function Search({handleSubmit,query,setQuery,sensorType,setSensorType}){
     return(
             <form className="flex flex-col items-center justify-center gap-4 mt-6 px-4 md:px-0" onSubmit={handleSubmit}>
-                <label className="font-bold italic text-xl md:text-2xl">Enter Sensor Type: </label>
-                <select className="text-xl md:text-2xl" name="sensorType" value={sensorType} onChange={({target})=>setSensorType(target.value)}>
+                <label className="font-bold italic text-xl md:text-2xl">Select Sensor Type: </label>
+                <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2" name="sensorType" value={sensorType} onChange={({target})=>setSensorType(target.value)}>
                     <option value="dwt">DWT Sensor</option>
                     <option value="bin">Bin Sensor</option>
                 </select>
