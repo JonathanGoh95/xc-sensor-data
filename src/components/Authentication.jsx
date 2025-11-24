@@ -15,6 +15,7 @@ export default function Authentication(){
         setSubmitted(true)
         if (pass.trim() === (xcPass ?? '').trim()){
             setAuthenticated(true)
+            setPass('')
             setError('')
         } else{
             setAuthenticated(false)
