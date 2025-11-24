@@ -13,9 +13,9 @@ export default function Results(){
     const [searched,setSearched] = useState(false)
     const [results,setResults] = useState([])
     const [page, setPage] = useState(1)
-    const PAGE_SIZE = 12    // Results per Page
     const [loading, setLoading] = useState(false)
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+    const PAGE_SIZE = isMobile ? 5 : 12    // Results per Page
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768)
