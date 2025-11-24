@@ -10,14 +10,16 @@ export default function Authentication(){
     // Vite exposes only env vars prefixed with VITE_ to client code
     const xcPass = import.meta.env.VITE_XC_ADMIN_PASS ?? ''
 
-    // 'Logs out' after 15 mins
+    // 'Logs out' after 15 mins — store the timer id and clear it on cleanup
     useEffect(() => {
-    if (authenticated === true) {         
-        setTimeout(() => {
+        if (!authenticated) return;
+
+        const timer = setTimeout(() => {
             setAuthenticated(false)
             setSubmitted(false)
         }, 900000);
-        }
+
+        return () => clearTimeout(timer);
     }, [authenticated])
     
     const handleAuth = (e) => {
