@@ -58,12 +58,12 @@ export default function Authentication(){
                         type="button"
                         aria-pressed={showPass}
                         onClick={() => setShowPass((s) => !s)}
-                        className="border-2 px-3 py-1 rounded-lg text-lg md:text-2xl"
+                        className="border-2 px-3 py-1 rounded-lg text-lg md:text-2xl hover:cursor-pointer"
                     >
                         {showPass ? 'Hide' : 'Show'}
                     </button>
                 </div>
-                <button className="border-2 text-lg md:text-2xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer italic w-auto" type="submit">Submit</button>
+                <button className="border-2 text-lg md:text-2xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer italic w-auto hover:cursor-pointer" type="submit">Submit</button>
             </form>
         )
     }

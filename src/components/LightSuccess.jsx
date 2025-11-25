@@ -18,6 +18,7 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
                             <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
                             <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
+                            <p><span className="font-bold">Site:</span> {res.site_name.split(" ")[0]} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
                             <p><span className="font-bold">LDR 1 Value:</span> {LDR1val}</p>
                             <p><span className="font-bold">LDR 2 Value:</span> {LDR2val}</p>

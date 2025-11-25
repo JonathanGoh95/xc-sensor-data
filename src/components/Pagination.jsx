@@ -28,7 +28,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
         <div className="flex items-center justify-center gap-2 m-4 flex-wrap text-xs md:text-sm lg:text-base">
             {/* Prev page */}
             <button
-                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer hover:bg-gray-100"
+                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer"
                 onClick={handlePrevPage}
                 disabled={page === 1}
             >
@@ -38,7 +38,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {/* Jump to previous group */}
             {groupStart > 1 && (
                 <button
-                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer hover:bg-gray-100"
+                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer"
                     onClick={handlePrevGroup}
                     aria-label="Previous pages"
                 >
@@ -50,7 +50,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {pageNumbers.map((num) => (
                 <button
                     key={num}
-                    className={"hover:cursor-pointer px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page ? "bg-blue-600 text-white" : "hover:bg-gray-100")}
+                    className={"hover:cursor-pointer px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page && "bg-blue-600 text-white")}
                     onClick={() => handlePageChange(num)}
                     aria-current={num === page ? 'page' : undefined}
                 >
@@ -61,7 +61,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {/* Jump to next group */}
             {groupEnd < totalPages && (
                 <button
-                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer hover:bg-gray-100"
+                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer"
                     onClick={handleNextGroup}
                     aria-label="Next pages"
                 >
@@ -71,7 +71,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
 
             {/* Next page */}
             <button
-                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer hover:bg-gray-100"
+                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer"
                 onClick={handleNextPage}
                 disabled={page === totalPages}
             >

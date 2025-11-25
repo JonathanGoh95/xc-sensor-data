@@ -1,3 +1,5 @@
+import RefreshBack from "./RefreshBack";
+
 export default function BinSuccess({pageItems,results,handleBack,handleRefresh}){
     return(
         <>
