@@ -2,10 +2,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
     return(
         <>
             <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Domestic Water Tank (DWT) Sensor Data</h1>
-            <div className="flex flex-col md:flex-row justify-center text-lg md:text-2xl md:gap-4 w-1/2 md:w-auto">
-                {results?.data?.length > 0 ? <button onClick={handleRefresh} className="mt-4 border px-3 py-1 rounded w-auto">Refresh</button> : null}
-                <button onClick={handleBack} className="mt-4 border px-3 py-1 rounded w-auto">Back</button>
-            </div>
+            <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
                 {pageItems.map((res) => {
                     const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4) || '';

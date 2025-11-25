@@ -7,6 +7,7 @@ import DWTSuccess from "./DWTSuccess"
 import BinSuccess from "./BinSuccess"
 import KEDSuccess from "./KEDSuccess"
 import Pagination from "./Pagination"
+import LightSuccess from "./LightSuccess"
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('')
@@ -87,6 +88,8 @@ export default function Results(){
                         <BinSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "ked" ?
                         <KEDSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "light" ?
+                        <LightSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>

@@ -1,10 +1,35 @@
 export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage,totalPages,dataLength}){
+    const handlePrevPage = () => {
+        setPage((p) => Math.max(1, p - 1));
+        window.scrollTo(0, 0);
+    }
+
+    const handlePrevGroup = () => {
+        setPage(Math.max(1, groupStart - 5))
+        window.scrollTo(0, 0);
+    }
+
+    const handlePageChange = (num) => {
+        setPage(num);
+        window.scrollTo(0, 0);
+    }
+
+    const handleNextPage = () => {
+        setPage((p) => Math.min(totalPages, p + 1));
+        window.scrollTo(0, 0);
+    }
+
+    const handleNextGroup = () => {
+        setPage(Math.min(totalPages, groupEnd + 1));
+        window.scrollTo(0, 0);
+    }
+
     return(
         <div className="flex items-center justify-center gap-2 m-4 flex-wrap text-xs md:text-sm lg:text-base">
             {/* Prev page */}
             <button
-                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm"
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer hover:bg-gray-100"
+                onClick={handlePrevPage}
                 disabled={page === 1}
             >
                 Prev
@@ -13,8 +38,8 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {/* Jump to previous group */}
             {groupStart > 1 && (
                 <button
-                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block"
-                    onClick={() => setPage(groupStart - 1)}
+                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer hover:bg-gray-100"
+                    onClick={handlePrevGroup}
                     aria-label="Previous pages"
                 >
                     &laquo;
@@ -25,8 +50,8 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {pageNumbers.map((num) => (
                 <button
                     key={num}
-                    className={"px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page ? "bg-blue-600 text-white" : "hover:bg-gray-100")}
-                    onClick={() => setPage(num)}
+                    className={"hover:cursor-pointer px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page ? "bg-blue-600 text-white" : "hover:bg-gray-100")}
+                    onClick={() => handlePageChange(num)}
                     aria-current={num === page ? 'page' : undefined}
                 >
                     {num}
@@ -36,8 +61,8 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {/* Jump to next group */}
             {groupEnd < totalPages && (
                 <button
-                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block"
-                    onClick={() => setPage(groupEnd + 1)}
+                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer hover:bg-gray-100"
+                    onClick={handleNextGroup}
                     aria-label="Next pages"
                 >
                     &raquo;
@@ -46,8 +71,8 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
 
             {/* Next page */}
             <button
-                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm"
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer hover:bg-gray-100"
+                onClick={handleNextPage}
                 disabled={page === totalPages}
             >
                 Next
