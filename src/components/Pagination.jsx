@@ -50,7 +50,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {pageNumbers.map((num) => (
                 <button
                     key={num}
-                    className={"hover:cursor-pointer px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page && "bg-blue-600 text-white")}
+                    className={"hover:cursor-pointer px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page && "bg-orange-400")}
                     onClick={() => handlePageChange(num)}
                     aria-current={num === page ? 'page' : undefined}
                 >
