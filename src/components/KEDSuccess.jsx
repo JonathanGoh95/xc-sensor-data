@@ -14,9 +14,9 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
                     const testing = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(39, -2),16) || '';
                     let isTesting; 
                     if(testing === 255){
-                        isTesting = "True";
+                        isTesting = "Testing (True)";
                     } else{
-                        isTesting = "False";
+                        isTesting = "Normal (False)";
                     }
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">

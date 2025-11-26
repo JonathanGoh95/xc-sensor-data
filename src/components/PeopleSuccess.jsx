@@ -12,9 +12,9 @@ export default function PeopleSuccess({pageItems,results,handleBack,handleRefres
                     const testStatusRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -2),16) || '';
                     let testStatus;
                     if (testStatusRaw === 255){
-                        testStatus = "True";
+                        testStatus = "Testing (True)";
                     } else{
-                        testStatus = "False";
+                        testStatus = "Normal (False)";
                     }
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">
