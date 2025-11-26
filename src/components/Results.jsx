@@ -6,6 +6,7 @@ import NoResults from "./NoResults"
 import DWTSuccess from "./DWTSuccess"
 import BinSuccess from "./BinSuccess"
 import KEDSuccess from "./KEDSuccess"
+import PeopleSuccess from "./PeopleSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
 
@@ -90,6 +91,8 @@ export default function Results(){
                         <KEDSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "light" ?
                         <LightSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "people" ?
+                        <PeopleSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>

@@ -18,7 +18,6 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
                     } else{
                         isTesting = "False";
                     }
-
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">
                             <p><span className="font-bold">Sensor ID:</span> {res.sensor_id}</p>
