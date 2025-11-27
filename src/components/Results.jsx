@@ -10,6 +10,7 @@ import PeopleSuccess from "./PeopleSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
 import PHSuccess from "./pHSuccess"
+import WaterflowSuccess from "./WaterFlowSuccess"
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('')
@@ -96,6 +97,8 @@ export default function Results(){
                         <PeopleSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pH" ?
                         <PHSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "water" ?
+                        <WaterflowSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>
