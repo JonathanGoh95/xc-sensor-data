@@ -9,6 +9,7 @@ import KEDSuccess from "./KEDSuccess"
 import PeopleSuccess from "./PeopleSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
+import PHSuccess from "./pHSuccess"
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('')
@@ -93,6 +94,8 @@ export default function Results(){
                         <LightSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "people" ?
                         <PeopleSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "pH" ?
+                        <PHSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>
