@@ -15,9 +15,9 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -14), 16) || 0;
-        const ldr1 = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -10),16) || 0;
-        const ldr2 = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -6),16) || 0;
-        const temp = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(33, -2),16) / 10) || 0;
+        const ldr1 = parseInt(payloadLast?.slice(25, -10),16) || 0;
+        const ldr2 = parseInt(payloadLast?.slice(29, -6),16) || 0;
+        const temp = parseFloat(parseInt(payloadLast?.slice(33, -2),16) / 10) || 0;
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),

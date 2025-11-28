@@ -15,8 +15,9 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
-        const reference = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -10),16) || 0;
-        const brightness = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(33, -4),16) || 0;
+        const reference = parseInt(payloadLast?.slice(27, -10),16) || 0;
+        const brightness = parseInt(payloadLast?.slice(33, -4),16) || 0;
+        const testRaw = parseInt(payloadLast?.slice(39, -2),16) || 0;
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
@@ -26,6 +27,7 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
             site: res.site_name,
             reference,
             brightness,
+            testRaw,
         };
     })
     // Optional: reverse so earliest is left-most if API returns latest-first
@@ -34,6 +36,12 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
     const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
     const p = payload[0].payload;
+    let isTesting; 
+    if(p.testRaw === 255){
+        isTesting = "Testing (True)";
+    } else{
+        isTesting = "Normal (False)";
+    }
     return (
         <div className="bg-white border p-2 text-sm shadow">
             <div className="font-bold">{p.datetime}</div>
@@ -43,6 +51,7 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
             <div>Sequence Number: {p.seq}</div>
             <div>Internal Reference: {p.reference}</div>
             <div>Brightness Value: {p.brightness}</div>
+            <div>Test Status: {isTesting}</div>
         </div>
     );
     }
