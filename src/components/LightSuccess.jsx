@@ -1,15 +1,86 @@
 import RefreshBack from "./RefreshBack";
+import {
+    ResponsiveContainer,
+    ComposedChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+} from "recharts";
 
 export default function LightSuccess({pageItems,results,handleBack,handleRefresh}){
+    const chartData = pageItems
+    .map((res) => {
+        const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
+        const sequenceNumber = parseInt(payloadLast?.slice(17, -14), 16) || 0;
+        const ldr1 = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -10),16) || 0;
+        const ldr2 = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -6),16) || 0;
+        const temp = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(33, -2),16) / 10) || 0;
+        
+        return {
+            datetime: new Date(res.created_at).toLocaleString(),
+            seq: sequenceNumber,
+            sensor_id: res.sensor_id,
+            gateway_id: res.gateway_id,
+            site: res.site_name,
+            ldr1,
+            ldr2,
+            temp,
+        };
+    })
+    // Optional: reverse so earliest is left-most if API returns latest-first
+    .reverse();
+
+    const CustomTooltip = ({ active, payload }) => {
+    if (!active || !payload || !payload.length) return null;
+    const p = payload[0].payload;
+    return (
+        <div className="bg-white border p-2 text-sm shadow">
+            <div className="font-bold">{p.datetime}</div>
+            <div>Sensor: {p.sensor_id}</div>
+            <div>Gateway: {p.gateway_id}</div>
+            <div>Site: {p.site}</div>
+            <div>Sequence Number: {p.seq}</div>
+            <div>LDR 1 Value: {p.ldr1}</div>
+            <div>LDR 2 Value: {p.ldr2}</div>
+            <div>Temperature: {p.temp}°C</div>
+        </div>
+    );
+    }
+    
     return(
         <>
             <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Light Sensor Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
+            {/* Chart: responsive container that adapts on mobile */}
+            <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
+            <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="seq" tick={{ fontSize: 15 }} tickFormatter={(v) => v}/>
+                {/* Left axis for sequence numbers */}
+                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
+                <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tick={{ fontSize: 15 }}
+                    tickFormatter={(v) => v}
+                />
+                <Tooltip content={CustomTooltip} />
+                <Legend />
+                <Line type="monotone" dataKey="ldr1" name="LDR 1" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="ldr2" name="LDR 2" stroke="#E53E3E" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#FFDA03" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                </ComposedChart>
+            </ResponsiveContainer>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
                 {pageItems.map((res) => {
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -14),16) || '';
-                    const LDR1val = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -10),16) || '';
-                    const LDR2val = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -10),16) || 0;
+                    const LDR1val = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -10),16) || 0;
+                    const LDR2val = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -6),16) || 0;
                     const temp = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(33, -2),16) / 10) || 0;
 
                     return (
@@ -18,7 +89,7 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
                             <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
                             <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
-                            <p><span className="font-bold">Site:</span> {res.site_name.split(" ")[0]} (ID: {res.site_id})</p>
+                            <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
                             <p><span className="font-bold">LDR 1 Value:</span> {LDR1val}</p>
                             <p><span className="font-bold">LDR 2 Value:</span> {LDR2val}</p>

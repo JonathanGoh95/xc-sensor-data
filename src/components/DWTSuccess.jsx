@@ -3,7 +3,6 @@ import {
     ResponsiveContainer,
     ComposedChart,
     Line,
-    Area,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -30,8 +29,10 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
         else if (statusRaw === "FFFF00") statusCode = 2;
         
         return {
-            time: new Date(res.created_at).toLocaleString(),
+            time: new Date(res.created_at).toLocaleTimeString(),
+            datetime: new Date(res.created_at).toLocaleString(),
             seq: sequenceNumber,
+            site: res.site_name,
             statusCode,
             statusRaw,
             sensor_id: res.sensor_id,
@@ -41,15 +42,16 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
     // Optional: reverse so earliest is left-most if API returns latest-first
     .reverse();
 
-    const CustomTooltip = ({ active, payload, label }) => {
+    const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
     const p = payload[0].payload;
     const statusLabel = STATUS_MAP[p.statusCode] ?? 'Unknown';
     return (
         <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{label}</div>
+            <div className="font-bold">{p.datetime}</div>
             <div>Sensor: {p.sensor_id}</div>
             <div>Gateway: {p.gateway_id}</div>
+            <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
             <div>Status: {statusLabel}</div>
         </div>
@@ -65,10 +67,9 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 10 }} />
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
                 {/* Left axis for sequence numbers */}
-                <YAxis yAxisId="left" orientation="left" tickFormatter={(v) => v} />
-                {/* Right axis for level metric (different scale) */}
+                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis
                     yAxisId="right"
                     orientation="right"
@@ -80,8 +81,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend />
-                {/* seq uses left axis */}
-                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 2 }} />D
+                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Water Level Status" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
@@ -107,6 +107,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                             <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
                             <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
+                            <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
                             <p><span className="font-bold">Status:</span> {statusMessage}</p>
                         </div>
