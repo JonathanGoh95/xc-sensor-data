@@ -13,8 +13,9 @@ import PHSuccess from "./pHSuccess"
 import WaterflowSuccess from "./WaterFlowSuccess"
 
 export default function Results(){
-    const [sensorType,setSensorType] = useState('')
+    const [sensorType,setSensorType] = useState('dwt')
     const [query,setQuery] = useState('')
+    const [queryID,setQueryID] = useState('')
     const [searched,setSearched] = useState(false)
     const [results,setResults] = useState([])
     const [page, setPage] = useState(1)
@@ -34,10 +35,10 @@ export default function Results(){
         setPage(1);
         setLoading(true)
         try {
-            const apiData = await apiService.api(query);
+            const apiData = await apiService.api(query,queryID);
             setResults(apiData || []);
         } catch (err) {
-            console.error('Error Occurred while API Data: ', err);
+            console.error('Error Occurred while fetching API Data: ', err);
             setResults([])
         } finally {
             setLoading(false)
@@ -47,6 +48,7 @@ export default function Results(){
     const handleBack = () =>{
         setSearched(false);
         setQuery('');
+        setQueryID('');
         setLoading(false);
     }
 
@@ -55,10 +57,10 @@ export default function Results(){
         setPage(1);
         setLoading(true)
         try {
-            const apiData = await apiService.api(query);
+            const apiData = await apiService.api(query,queryID);
             setResults(apiData || []);
         } catch (err) {
-            console.error('Error Occurred while API Data: ', err);
+            console.error('Error Occurred while fetching API Data: ', err);
             setResults([])
         } finally {
             setLoading(false)
@@ -66,9 +68,8 @@ export default function Results(){
     }
 
     if (!searched){
-        return <Search handleSubmit={handleSubmit} query={query} setQuery={setQuery} sensorType={sensorType} setSensorType={setSensorType}/>
+        return <Search handleSubmit={handleSubmit} query={query} setQuery={setQuery} queryID={queryID} setQueryID={setQueryID} sensorType={sensorType} setSensorType={setSensorType}/>
     } else{
-        // When results comes back it is expected to be an object like { success: 1, data: [...] }
         const data = results?.data || []
         const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE))
         const startIndex = (page - 1) * PAGE_SIZE
