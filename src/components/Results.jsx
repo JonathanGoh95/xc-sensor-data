@@ -10,7 +10,7 @@ import PeopleSuccess from "./PeopleSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
 import PHSuccess from "./pHSuccess"
-import WaterflowSuccess from "./WaterFlowSuccess"
+import WaterflowSuccess from "./WaterflowSuccess"
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('dwt')
@@ -82,6 +82,8 @@ export default function Results(){
 
         return(
             <>
+            {/* Pagination controls (grouped page numbers, groups of 10) */}
+            {results.success === 1 && data.length > 0 && !loading && <Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages} dataLength={data.length}/>}
             <div className="flex flex-col items-center justify-center mt-5 text-lg md:text-2xl gap-4 px-4 md:px-0">
                 {loading ? <Loading /> : null}
                 {!loading && (
