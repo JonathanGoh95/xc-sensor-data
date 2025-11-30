@@ -44,8 +44,6 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
             gateway_id: res.gateway_id,
         };
     })
-    // Optional: reverse so earliest is left-most if API returns latest-first
-    .reverse();
 
     const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;

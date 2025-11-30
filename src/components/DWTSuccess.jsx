@@ -39,8 +39,6 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             gateway_id: res.gateway_id,
         };
     })
-    // Optional: reverse so earliest is left-most if API returns latest-first
-    .reverse();
 
     const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
@@ -67,7 +65,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
+                <XAxis dataKey="time" tick={{ fontSize: 15 }}/>
                 {/* Left axis for sequence numbers */}
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis

@@ -30,8 +30,6 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
             testRaw,
         };
     })
-    // Optional: reverse so earliest is left-most if API returns latest-first
-    .reverse();
 
     const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;

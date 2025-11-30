@@ -30,8 +30,6 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
             temp,
         };
     })
-    // Optional: reverse so earliest is left-most if API returns latest-first
-    .reverse();
 
     const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;

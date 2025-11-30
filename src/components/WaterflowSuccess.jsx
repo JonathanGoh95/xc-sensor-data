@@ -28,8 +28,6 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
             gateway_id: res.gateway_id,
         };
     })
-    // Optional: reverse so earliest is left-most if API returns latest-first
-    .reverse();
 
     const CustomTooltip = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
