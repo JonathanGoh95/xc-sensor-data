@@ -38,7 +38,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {/* Jump to previous group */}
             {groupStart > 1 && (
                 <button
-                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer"
+                    className="border px-2 py-1 rounded text-xs md:text-sm sm:inline-block hover:cursor-pointer"
                     onClick={handlePrevGroup}
                     aria-label="Previous pages"
                 >
@@ -61,7 +61,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {/* Jump to next group */}
             {groupEnd < totalPages && (
                 <button
-                    className="border px-2 py-1 rounded text-xs md:text-sm hidden sm:inline-block hover:cursor-pointer"
+                    className="border px-2 py-1 rounded text-xs md:text-sm sm:inline-block hover:cursor-pointer"
                     onClick={handleNextGroup}
                     aria-label="Next pages"
                 >
