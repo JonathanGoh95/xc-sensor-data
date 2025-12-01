@@ -12,7 +12,7 @@ import {
 
 export default function BinSuccess({pageItems,results,handleBack,handleRefresh}){
     const STATUS_MAP = {
-        0: 'Not Full',
+        0: 'Calibrating',
         1: 'Full',
         2: 'Heartbeat',
         3: 'Anomaly',
@@ -22,8 +22,8 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
-        const isFullRaw = parseInt(payloadLast?.slice(25, -16), 16) || '';
-        const alert = parseInt(payloadLast?.slice(27, -12), 16) || '';
+        const isFullRaw = parseInt(payloadLast?.slice(25, -16), 16);
+        const alert = parseInt(payloadLast?.slice(27, -12), 16);
         const maxCalib = parseInt(payloadLast?.slice(31, -8), 16) || '';
         const curr = parseInt(payloadLast?.slice(35, -4), 16) || '';
         let statusCode = 3; // default -> Anomaly
@@ -95,13 +95,13 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
                 {pageItems.map((res) => {
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -18),16) || '';
-                    const isFullRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -16),16) || '';
-                    const alertSessions = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16) || '';
+                    const isFullRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -16),16);
+                    const alertSessions = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16);
                     const maxCalibVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16) || '';
                     const currRange = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(35, -4),16) || '';
-                    let isFull;
+                    let isFull = "Anomaly";
                     if(isFullRaw === 0){
-                        isFull = "Not Full";
+                        isFull = "Calibrating";
                     } else if (isFullRaw === 1){
                         isFull = "Full";
                     } else if (isFullRaw === 255){
