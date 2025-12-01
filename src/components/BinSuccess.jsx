@@ -24,8 +24,8 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
         const sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
         const isFullRaw = parseInt(payloadLast?.slice(25, -16), 16);
         const alert = parseInt(payloadLast?.slice(27, -12), 16);
-        const maxCalib = parseInt(payloadLast?.slice(31, -8), 16) || '';
-        const curr = parseInt(payloadLast?.slice(35, -4), 16) || '';
+        const maxCalib = parseInt(payloadLast?.slice(31, -8), 16);
+        const curr = parseInt(payloadLast?.slice(35, -4), 16);
         let statusCode = 3; // default -> Anomaly
         if (isFullRaw === 0) statusCode = 0;
         else if (isFullRaw === 1) statusCode = 1;
@@ -73,13 +73,13 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
             <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 12 }} />
-                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 12 }} tickFormatter={(v) => v} />
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
+                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis
                     yAxisId="right"
                     orientation="right"
                     domain={[0, 3]}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 11 }}
                     ticks={[0,1,2,3]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
@@ -97,8 +97,8 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -18),16) || '';
                     const isFullRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -16),16);
                     const alertSessions = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16);
-                    const maxCalibVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16) || '';
-                    const currRange = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(35, -4),16) || '';
+                    const maxCalibVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16);
+                    const currRange = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(35, -4),16);
                     let isFull = "Anomaly";
                     if(isFullRaw === 0){
                         isFull = "Calibrating";
