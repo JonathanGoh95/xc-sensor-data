@@ -31,12 +31,15 @@ export default function Results(){
     }, [])
     
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setSearched(true);
-        setPage(1);
+        e.preventDefault()
+        // compute padded ID locally so we can use it immediately for the API call
+        const paddedID = String(queryID).padStart(4,'0')
+        setQueryID(paddedID)
+        setSearched(true)
+        setPage(1)
         setLoading(true)
         try {
-            const apiData = await apiService.api(query,queryID);
+            const apiData = await apiService.api(query, paddedID);
             setResults(apiData || []);
         } catch (err) {
             console.error('Error Occurred while fetching API Data: ', err);
@@ -69,7 +72,7 @@ export default function Results(){
     }
 
     if (!searched){
-        return <Search handleSubmit={handleSubmit} query={query} setQuery={setQuery} queryID={queryID} setQueryID={setQueryID} sensorType={sensorType} setSensorType={setSensorType}/>
+        return <Search handleSubmit={handleSubmit} setQuery={setQuery} queryID={queryID} setQueryID={setQueryID} sensorType={sensorType} setSensorType={setSensorType}/>
     } else{
         const data = results?.data || []
         const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE))
