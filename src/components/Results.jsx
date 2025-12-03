@@ -32,7 +32,6 @@ export default function Results(){
     
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // compute padded ID locally so we can use it immediately for the API call
         const paddedID = String(queryID).padStart(4,'0')
         setQueryID(paddedID)
         setSearched(true)
