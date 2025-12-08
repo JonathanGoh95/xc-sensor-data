@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useState } from "react"
 import Results from "./Results"
 
 export default function Authentication(){
@@ -11,16 +11,16 @@ export default function Authentication(){
     const xcPass = import.meta.env.VITE_XC_ADMIN_PASS ?? ''
 
     // 'Logs out' after 15 mins — store the timer id and clear it on cleanup
-    useEffect(() => {
-        if (!authenticated) return;
+    // useEffect(() => {
+    //     if (!authenticated) return;
 
-        const timer = setTimeout(() => {
-            setAuthenticated(false)
-            setSubmitted(false)
-        }, 900000);
+    //     const timer = setTimeout(() => {
+    //         setAuthenticated(false)
+    //         setSubmitted(false)
+    //     }, 900000);
 
-        return () => clearTimeout(timer);
-    }, [authenticated])
+    //     return () => clearTimeout(timer);
+    // }, [authenticated])
     
     const handleAuth = (e) => {
         e.preventDefault()
