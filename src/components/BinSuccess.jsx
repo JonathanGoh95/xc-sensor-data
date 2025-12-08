@@ -86,9 +86,11 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend />
-                <Line type="monotone" dataKey="maxCalib" name="Maximum Calibration Range" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }}/>
-                <Line type="monotone" dataKey="curr" name="Current Range" stroke="#FFDA03" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="stepAfter" dataKey="statusCode" name="Bin Status" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="maxCalib" name="Maximum Calibration Range" stroke="#0392CF" yAxisId="left" strokeWidth={2} dot={{ r: 3 }}/>
+                <Line type="monotone" dataKey="curr" name="Current Range" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="alert" name="Alert Sessions" stroke="#38761D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="stepAfter" dataKey="statusCode" name="Bin Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>
