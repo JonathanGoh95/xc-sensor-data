@@ -78,7 +78,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
                 Next
             </button>
 
-            <span className="ml-2 md:ml-3 text-xs md:text-sm">Page {page} of {totalPages} ({dataLength} Results)</span>
+            <span className="ml-6 md:ml-3 text-xs md:text-sm">Page {page} of {totalPages} ({dataLength} Results)</span>
         </div>
     )
 }
