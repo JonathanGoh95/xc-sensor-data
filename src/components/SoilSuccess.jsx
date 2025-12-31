@@ -83,6 +83,7 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
                 <Line type="monotone" dataKey="ldr" name="LDR Value" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="moisturePct" name="Moisture Percentage" stroke="#f4f400" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="temp" name="Temperature" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#9532A8" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>
