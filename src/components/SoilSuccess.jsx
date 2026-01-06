@@ -25,7 +25,7 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
         if (mode === 0){
             modeStatus = "Normal";
         }else{
-            modeStatus = "Testing";
+            modeStatus = "Calibration";
         }
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
@@ -100,7 +100,7 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
                     if (mode === 0){
                         modeStatus = "Normal";
                     }else{
-                        modeStatus = "Testing";
+                        modeStatus = "Calibration";
                     }
 
                     return (
