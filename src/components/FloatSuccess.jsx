@@ -13,9 +13,9 @@ import {
 export default function FloatSuccess({pageItems,results,handleBack,handleRefresh}){
     // Order ticks 0..2 so they display as: Heartbeat, Full, Anomaly
     const STATUS_MAP = {
-        0: 'Full',
+        0: 'Anomaly',
         1: 'Heartbeat',
-        2: 'Anomaly',
+        2: 'Full',
     };
 
     const chartData = pageItems
@@ -24,9 +24,9 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
     const sequenceNumber = parseInt(payloadLast?.slice(17, -10), 16) || 0;
     const voltage = parseInt(payloadLast?.slice(25, -6), 16);
     const statusRaw = parseInt(payloadLast?.slice(29, -4), 16);
-    let statusCode = 2; // default -> Anomaly
-    if (statusRaw === 0) statusCode = 0; // Full
-    else if (statusRaw === 255) statusCode = 1; // Heartbeat
+    let statusCode = 0; // default -> Anomaly
+    if (statusRaw === 255) statusCode = 1; // Full
+    else if (statusRaw === 0) statusCode = 2; // Heartbeat
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
