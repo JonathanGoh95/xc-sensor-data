@@ -31,9 +31,9 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
         } else{
             alert = "No";
         }
-        if (statusRaw === "FFFF") statusCode = 0;
+        if (statusRaw === "00FF") statusCode = 0;
         else if (statusRaw === "0000") statusCode = 1;
-        else if (statusRaw === "00FF") statusCode = 2;
+        else if (statusRaw === "FF00") statusCode = 2;
         
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
@@ -107,9 +107,9 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                     }
                     if (statusRaw === "0000") {
                         statusMessage = `Water Level is Normal (${statusRaw})`;
-                    } else if (statusRaw === "00FF") {
+                    } else if (statusRaw === "FF00") {
                         statusMessage = `Water Level is Too High (${statusRaw})`;
-                    } else if (statusRaw === "FFFF") {
+                    } else if (statusRaw === "00FF") {
                         statusMessage = `Water Level is Too Low (${statusRaw})`;
                     } else {
                         statusMessage = `Anomaly/Sensor Issue Detected (${statusRaw})`;
