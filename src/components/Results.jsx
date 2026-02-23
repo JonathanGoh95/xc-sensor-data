@@ -12,6 +12,7 @@ import LightSuccess from "./LightSuccess"
 import PHSuccess from "./pHSuccess"
 import WaterflowSuccess from "./WaterflowSuccess"
 import SoilSuccess from "./SoilSuccess"
+import FloatSuccess from "./FloatSuccess"
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('dwt')
@@ -107,6 +108,8 @@ export default function Results(){
                         <WaterflowSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "soil" ?
                         <SoilSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "float" ?
+                        <FloatSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>
