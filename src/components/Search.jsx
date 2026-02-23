@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorType,setSensorType}){
     useEffect(() => {
-        if (sensorType === 'dwt') setQuery('ffff')
+        if (sensorType === 'dwt') setQuery(import.meta.env.VITE_DWT)
         else if (sensorType === 'bin') setQuery(import.meta.env.VITE_BIN)
         else if (sensorType === 'ked') setQuery(import.meta.env.VITE_KED)
         else if (sensorType === 'light') setQuery(import.meta.env.VITE_LIGHT)

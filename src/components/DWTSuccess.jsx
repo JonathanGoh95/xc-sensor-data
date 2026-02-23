@@ -22,11 +22,18 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -10), 16) || 0;
-        const statusRaw = payloadLast?.slice(25, -4) || '';
+        const statusRaw = payloadLast?.slice(25, -6) || '';
+        const alertRaw = payloadLast?.slice(29, -4) || '';
+        let alert;
         let statusCode = 3; // default -> Anomaly
-        if (statusRaw === "000000") statusCode = 0;
-        else if (statusRaw === "00FFFF") statusCode = 1;
-        else if (statusRaw === "FFFF00") statusCode = 2;
+        if (alertRaw === "00"){
+            alert = "Yes";
+        } else{
+            alert = "No";
+        }
+        if (statusRaw === "FFFF") statusCode = 0;
+        else if (statusRaw === "0000") statusCode = 1;
+        else if (statusRaw === "00FF") statusCode = 2;
         
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
@@ -35,6 +42,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             site: res.site_name,
             statusCode,
             statusRaw,
+            alert,
             sensor_id: res.sensor_id,
             gateway_id: res.gateway_id,
         };
@@ -52,6 +60,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
             <div>Status: {statusLabel}</div>
+            <div>Alert: {p.alert}</div>
         </div>
     );
     }
@@ -86,14 +95,21 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
                 {pageItems.map((res) => {
-                    const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4) || '';
+                    const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -6) || '';
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -10),16) || '';
+                    const alertRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -4) || '';
+                    let alert;
                     let statusMessage;
-                    if (statusRaw === "00FFFF") {
+                    if (alertRaw === "00"){
+                        alert = "Yes";
+                    } else{
+                        alert = "No";
+                    }
+                    if (statusRaw === "0000") {
                         statusMessage = `Water Level is Normal (${statusRaw})`;
-                    } else if (statusRaw === "FFFF00") {
+                    } else if (statusRaw === "00FF") {
                         statusMessage = `Water Level is Too High (${statusRaw})`;
-                    } else if (statusRaw === "000000") {
+                    } else if (statusRaw === "FFFF") {
                         statusMessage = `Water Level is Too Low (${statusRaw})`;
                     } else {
                         statusMessage = `Anomaly/Sensor Issue Detected (${statusRaw})`;
@@ -108,6 +124,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
                             <p><span className="font-bold">Status:</span> {statusMessage}</p>
+                            <p><span className="font-bold">Alert:</span> {alert}</p>
                         </div>
                     )
                 })}
