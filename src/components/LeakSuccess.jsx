@@ -24,8 +24,10 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -14), 16) || 0;
         const statusVal = parseInt(payloadLast?.slice(25, -12), 16);
-        const leakPos = parseInt(payloadLast?.slice(27, -8), 16);
-        const wireLength = parseInt(payloadLast?.slice(31, -4), 16);
+        const leakPosRaw = parseInt(payloadLast?.slice(27, -8), 16);
+        const wireResRaw = parseInt(payloadLast?.slice(31, -4), 16);
+        const leakPos = leakPosRaw / 10.0;
+        const wireRes = wireResRaw / 13.3;
         let statusCode = 4; // default -> Anomaly
         if (statusVal === 0) statusCode = 0;
         else if (statusVal === 1) statusCode = 1;
@@ -39,7 +41,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             site: res.site_name,
             statusCode,
             leakPos,
-            wireLength,
+            wireRes,
             sensor_id: res.sensor_id,
             gateway_id: res.gateway_id,
         };
@@ -56,7 +58,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
-            <div>Wire Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.wireLength + " m (13.3 Ω/m)"}</div>
+            <div>Wire Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.wireRes + " m (13.3 Ω/m)"}</div>
             <div>Leak Status: {statusLabel}</div>
             <div>Leak Location: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos + " m" : "No Leaks"}</div>
             <div>Wire Status: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : "Normal"}</div>
@@ -97,8 +99,10 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                 {pageItems.map((res) => {
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -14),16) || '';
                     const statusVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -12),16);
-                    const leakPos = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -8),16);
-                    const wireLength = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -4),16);
+                    const leakPosRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -8),16);
+                    const wireResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -4),16);
+                    const leakPos = leakPosRaw / 10.0;
+                    const wireRes = wireResRaw / 13.3;
                     let statusMsg = "Anomaly";
                     if(statusVal === 0){
                         statusMsg = "Normal (No Leaks)";
@@ -118,7 +122,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Wire Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : wireLength + " m (13.3 Ω/m)"}</p>
+                            <p><span className="font-bold">Wire Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : wireRes + " m (13.3 Ω/m)"}</p>
                             <p><span className="font-bold">Leak Status:</span> {statusMsg}</p>
                             <p><span className="font-bold">Leak Location:</span> {statusVal === 1 ? "Disconnected" : leakPos > 0 ? leakPos + " m" : "No Leaks"}</p>
                             <p><span className="font-bold">Wire Status:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : "Normal"}</p>
