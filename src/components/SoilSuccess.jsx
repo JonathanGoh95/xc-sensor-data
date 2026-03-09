@@ -77,7 +77,7 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <Tooltip content={CustomTooltip} />
-                <Legend />
+                <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="dryBase" name="Dryness Base Value" stroke="#FF7518 " yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="rawMoisture" name="Raw Moisture Value" stroke="#00FF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="ldr" name="LDR Value" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />

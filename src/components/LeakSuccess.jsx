@@ -10,31 +10,36 @@ import {
     Legend,
 } from "recharts";
 
-export default function FloatSuccess({pageItems,results,handleBack,handleRefresh}){
-    // Order ticks 0..2 so they display as: Heartbeat, Full, Anomaly
+export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}){
     const STATUS_MAP = {
-        0: 'Anomaly',
-        1: 'Heartbeat',
-        2: 'Full',
+        0: 'Normal (No Leaks)',
+        1: 'Cable Disconnection',
+        2: 'Leak Detected',
+        3: 'Cable Disconnection + Leakage',
+        4: 'Anomaly',
     };
 
     const chartData = pageItems
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
-    const sequenceNumber = parseInt(payloadLast?.slice(17, -10), 16) || 0;
-    const voltage = parseInt(payloadLast?.slice(25, -6), 16);
-    const statusRaw = parseInt(payloadLast?.slice(29, -4), 16);
-    let statusCode = 0; // default -> Anomaly
-    if (statusRaw === 255) statusCode = 1; // Full
-    else if (statusRaw === 0) statusCode = 2; // Heartbeat
+        const sequenceNumber = parseInt(payloadLast?.slice(17, -14), 16) || 0;
+        const statusVal = parseInt(payloadLast?.slice(25, -12), 16);
+        const leakPos = parseInt(payloadLast?.slice(27, -8), 16);
+        const wireRes = parseInt(payloadLast?.slice(31, -4), 16);
+        let statusCode = 4; // default -> Anomaly
+        if (statusVal === 0) statusCode = 0;
+        else if (statusVal === 1) statusCode = 1;
+        else if (statusVal === 2) statusCode = 2;
+        else if (statusVal === 3) statusCode = 3;
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
             time: new Date(res.created_at).toLocaleTimeString(),
             seq: sequenceNumber,
             site: res.site_name,
-            voltage,
             statusCode,
+            leakPos,
+            wireRes,
             sensor_id: res.sensor_id,
             gateway_id: res.gateway_id,
         };
@@ -51,15 +56,17 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
-            <div>Voltage: {p.voltage}</div>
-            <div>Status: {statusLabel}</div>
+            <div>Wire Resistance: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.wireRes + " Ω"}</div>
+            <div>Leak Status: {statusLabel}</div>
+            <div>Leak Location: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos + "m" : "No Leaks"}</div>
+            <div>Wire Status: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : "Normal"}</div>
         </div>
     );
     }
 
     return(
         <>
-            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Float Switch Sensor Data</h1>
+            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Leak Sensor Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
@@ -71,31 +78,36 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 2]}
+                    domain={[0, 3]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2]}
+                    ticks={[0,1,2,3]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
-                    width={150}
+                    width={225}
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="voltage" name="Voltage" stroke="#38761D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="stepAfter" dataKey="statusCode" name="Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="wireRes" name="Wire Resistance" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="stepAfter" dataKey="statusCode" name="Leak Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
-                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -10),16) || '';
-                    const voltage = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -6),16);
-                    const statusRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -4),16);
-                    let isFull = "Anomaly";
-                    if(statusRaw === 0){
-                        isFull = "Full";
-                    } else if (statusRaw === 255){
-                        isFull = "Heartbeat";
+                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -14),16) || '';
+                    const statusVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -12),16);
+                    const leakPos = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -8),16);
+                    const wireRes = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -4),16);
+                    let statusMsg = "Anomaly";
+                    if(statusVal === 0){
+                        statusMsg = "Normal (No Leaks)";
+                    } else if (statusVal === 1){
+                        statusMsg = "Cable Disconnection";
+                    } else if (statusVal === 2){
+                        statusMsg = "Leak Detected";
+                    } else if (statusVal === 3){
+                        statusMsg = "Cable Disconnection + Leakage";
                     }
 
                     return (
@@ -106,8 +118,10 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Voltage:</span> {voltage} V</p>
-                            <p><span className="font-bold">Status:</span> {isFull}</p>
+                            <p><span className="font-bold">Wire Resistance:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : wireRes + " Ω"}</p>
+                            <p><span className="font-bold">Leak Status:</span> {statusMsg}</p>
+                            <p><span className="font-bold">Leak Location:</span> {statusVal === 1 ? "Disconnected" : leakPos > 0 ? leakPos + "m" : "No Leaks"}</p>
+                            <p><span className="font-bold">Wire Status:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : "Normal"}</p>
                         </div>
                     )
                 })}

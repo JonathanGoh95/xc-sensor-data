@@ -70,7 +70,7 @@ export default function PeopleSuccess({pageItems,results,handleBack,handleRefres
                     allowDecimals={false}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend />
+                <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="numPeople" name="Number of People" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="testCode" name="Testing Status" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>

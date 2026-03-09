@@ -70,22 +70,23 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
-            <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData}>
+            <ResponsiveContainer width="110%" height="110%">
+                <ComposedChart data={chartData} margin={{ bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
-                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={10}/>
+                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v}/>
                 <YAxis
                     yAxisId="right"
                     orientation="right"
                     domain={[0, 3]}
-                    tick={{ fontSize: 11 }}
+                    tick={{ fontSize: 15 }}
                     ticks={[0,1,2,3]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
+                    width={150}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend />
+                <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="maxCalib" name="Maximum Calibration Range" stroke="#0392CF" yAxisId="left" strokeWidth={2} dot={{ r: 3 }}/>
                 <Line type="monotone" dataKey="curr" name="Current Range" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />

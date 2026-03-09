@@ -59,7 +59,7 @@ export default function PHSuccess({pageItems,results,handleBack,handleRefresh}){
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <Tooltip content={CustomTooltip} />
-                <Legend />
+                <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="phValue" name="pH Value" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="temp" name="Temperature" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>

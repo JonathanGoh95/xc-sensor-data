@@ -67,7 +67,7 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
                     tickFormatter={(v) => v}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend />
+                <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="ldr1" name="LDR 1" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="ldr2" name="LDR 2" stroke="#E53E3E" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="temp" name="Temperature" stroke="#FFDA03" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />

@@ -59,7 +59,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <Tooltip content={CustomTooltip} />
-                <Legend />
+                <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="numLitres" name="Number of Litres" stroke="#E53E3E" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#3182CE" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
