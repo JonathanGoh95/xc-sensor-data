@@ -58,7 +58,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
-            <div>Wire Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.wireLength.toFixed(2) + " m (13.3 Ω/m)"}</div>
+            <div>Wire Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireLength.toFixed(2) + " m (13.3 Ω/m)"}</div>
             <div>Leak Status: {statusLabel}</div>
             <div>Leak Location: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos.toFixed(2) + " m" : "No Leaks"}</div>
             <div>Wire Connection Status: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : "Connected"}</div>
@@ -123,7 +123,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Wire Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : wireLength.toFixed(2) + " m (13.3 Ω/m)"}</p>
+                            <p><span className="font-bold">Wire Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : wireLength.toFixed(2) + " m (13.3 Ω/m)"}</p>
                             <p><span className="font-bold">Leak Status:</span> {statusMsg}</p>
                             <p><span className="font-bold">Leak Location:</span> {statusVal === 1 ? "Disconnected" : leakPos > 0 ? leakPos.toFixed(2) + " m" : "No Leaks"}</p>
                             <p><span className="font-bold">Wire Connection Status:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : "Connected"}</p>
