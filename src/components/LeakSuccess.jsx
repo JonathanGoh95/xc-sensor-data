@@ -22,12 +22,14 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
     const chartData = pageItems
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
-        const sequenceNumber = parseInt(payloadLast?.slice(17, -14), 16) || 0;
-        const statusVal = parseInt(payloadLast?.slice(25, -12), 16);
-        const leakPosRaw = parseInt(payloadLast?.slice(27, -8), 16);
-        const wireResRaw = parseInt(payloadLast?.slice(31, -4), 16);
+        const sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
+        const statusVal = parseInt(payloadLast?.slice(25, -16), 16);
+        const leakPosRaw = parseInt(payloadLast?.slice(27, -12), 16);
+        const wireResRaw = parseInt(payloadLast?.slice(31, -8), 16);
+        const wireUnitResRaw = parseInt(payloadLast?.slice(35, -4), 16);
         const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / 10.0 : 0;
-        const wireRes = wireResRaw / 10.0;
+        const wireUnitRes = wireUnitResRaw / 10.0;
+        const cableLength = wireResRaw / wireUnitRes;
         let statusCode = 4; // default -> Anomaly
         if (statusVal === 0) statusCode = 0;
         else if (statusVal === 1) statusCode = 1;
@@ -41,7 +43,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             site: res.site_name,
             statusCode,
             leakPos,
-            wireRes,
+            wireUnitRes,
+            cableLength,
             sensor_id: res.sensor_id,
             gateway_id: res.gateway_id,
         };
@@ -58,7 +61,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
-            <div>Wire Resistance: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireRes.toFixed(2) + " Ω/m"}</div>
+            <div>Cable Resistance: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireUnitRes.toFixed(2) + " Ω/m"}</div>
+            <div>Cable Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.cableLength.toFixed(2) + " m"}</div>
             <div>Leak Status: {statusLabel}</div>
             <div>Leak Location: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos.toFixed(2) + " m" : "No Leaks"}</div>
             <div>Wire Connection Status: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : "Connected"}</div>
@@ -90,7 +94,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="wireRes" name="Wire Resistance (Ω/m)" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="cableLength" name="Cable Length (m)" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="leakPos" name="Leak Position" stroke="#38761D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Leak Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
@@ -98,12 +102,14 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
-                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -14),16) || '';
-                    const statusVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -12),16);
-                    const leakPosRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -8),16);
-                    const wireResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -4),16);
+                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -18),16) || '';
+                    const statusVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -16),16);
+                    const leakPosRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16);
+                    const wireResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16);
+                    const wireUnitResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(35, -4),16);
                     const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / 10.0 : 0;
-                    const wireRes = wireResRaw / 10.0;
+                    const wireUnitRes = wireUnitResRaw / 10.0;
+                    const cableLength = wireResRaw / wireUnitRes;
                     let statusMsg = "Anomaly";
                     if(statusVal === 0){
                         statusMsg = "Normal (No Leaks)";
@@ -123,7 +129,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Wire Resistance:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : wireRes.toFixed(2) + " Ω/m"}</p>
+                            <p><span className="font-bold">Cable Resistance:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : wireUnitRes.toFixed(2) + " Ω/m"}</p>
+                            <p><span className="font-bold">Cable Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : cableLength.toFixed(2) + " m"}</p>
                             <p><span className="font-bold">Leak Status:</span> {statusMsg}</p>
                             <p><span className="font-bold">Leak Location:</span> {statusVal === 1 ? "Disconnected" : leakPos > 0 ? leakPos.toFixed(2) + " m" : "No Leaks"}</p>
                             <p><span className="font-bold">Wire Connection Status:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : "Connected"}</p>
