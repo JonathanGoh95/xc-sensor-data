@@ -27,8 +27,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
         const leakPosRaw = parseInt(payloadLast?.slice(27, -12), 16);
         const wireResRaw = parseInt(payloadLast?.slice(31, -8), 16);
         const wireUnitResRaw = parseInt(payloadLast?.slice(35, -4), 16);
-        const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / 10.0 : 0;
         const wireUnitRes = wireUnitResRaw / 10.0;
+        const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / wireUnitRes : 0;
         const cableLength = wireResRaw / wireUnitRes;
         let statusCode = 4; // default -> Anomaly
         if (statusVal === 0) statusCode = 0;
@@ -107,8 +107,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                     const leakPosRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16);
                     const wireResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16);
                     const wireUnitResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(35, -4),16);
-                    const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / 10.0 : 0;
                     const wireUnitRes = wireUnitResRaw / 10.0;
+                    const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / wireUnitRes : 0;
                     const cableLength = wireResRaw / wireUnitRes;
                     let statusMsg = "Anomaly";
                     if(statusVal === 0){
