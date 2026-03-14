@@ -22,11 +22,12 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
     const chartData = pageItems
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
-        const sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
-        const statusVal = parseInt(payloadLast?.slice(25, -16), 16);
-        const leakPosRaw = parseInt(payloadLast?.slice(27, -12), 16);
-        const wireResRaw = parseInt(payloadLast?.slice(31, -8), 16);
-        const wireUnitResRaw = parseInt(payloadLast?.slice(35, -4), 16);
+        const sequenceNumber = parseInt(payloadLast?.slice(17, -20), 16) || 0;
+        const devAddr = parseInt(payloadLast?.slice(25, -18), 16) || 0;
+        const statusVal = parseInt(payloadLast?.slice(27, -16), 16);
+        const leakPosRaw = parseInt(payloadLast?.slice(29, -12), 16);
+        const wireResRaw = parseInt(payloadLast?.slice(33, -8), 16);
+        const wireUnitResRaw = parseInt(payloadLast?.slice(37, -4), 16);
         const wireUnitRes = wireUnitResRaw / 10.0;
         const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / wireUnitRes : 0;
         const cableLength = wireResRaw / wireUnitRes;
@@ -41,6 +42,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             time: new Date(res.created_at).toLocaleTimeString(),
             seq: sequenceNumber,
             site: res.site_name,
+            devAddr,
             statusCode,
             leakPos,
             wireUnitRes,
@@ -61,6 +63,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
+            <div>Device Address: {p.devAddr}</div>
             <div>Cable Resistance: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireUnitRes.toFixed(2) + " Ω/m"}</div>
             <div>Cable Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.cableLength.toFixed(2) + " m"}</div>
             <div>Leak Status: {statusLabel}</div>
@@ -102,11 +105,12 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
-                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -18),16) || '';
-                    const statusVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -16),16);
-                    const leakPosRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16);
-                    const wireResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16);
-                    const wireUnitResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(35, -4),16);
+                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -20),16) || '';
+                    const devAddr = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -18),16) || '';
+                    const statusVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -16),16);
+                    const leakPosRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -12),16);
+                    const wireResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(33, -8),16);
+                    const wireUnitResRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(37, -4),16);
                     const wireUnitRes = wireUnitResRaw / 10.0;
                     const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / wireUnitRes : 0;
                     const cableLength = wireResRaw / wireUnitRes;
@@ -129,6 +133,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
+                            <p><span className="font-bold">Device Address:</span> {devAddr}</p>
                             <p><span className="font-bold">Cable Resistance:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : wireUnitRes.toFixed(2) + " Ω/m"}</p>
                             <p><span className="font-bold">Cable Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : cableLength.toFixed(2) + " m"}</p>
                             <p><span className="font-bold">Leak Status:</span> {statusMsg}</p>
