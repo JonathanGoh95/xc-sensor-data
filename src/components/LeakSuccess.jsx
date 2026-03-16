@@ -65,7 +65,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <div>Sequence Number: {p.seq}</div>
             <div>Device Address: {p.devAddr}</div>
             <div>Cable Resistance: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireUnitRes.toFixed(2) + " Ω/m"}</div>
-            <div>Cable Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.cableLength.toFixed(2) + " m"}</div>
+            <div>Cable Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.cableLength.toFixed(2) + " m"}</div>
             <div>Leak Status: {statusLabel}</div>
             <div>Leak Position: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos.toFixed(2) + " m" : "No Leaks"}</div>
             <div>Wire Connection Status: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : "Connected"}</div>
@@ -135,7 +135,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
                             <p><span className="font-bold">Device Address:</span> {devAddr}</p>
                             <p><span className="font-bold">Cable Resistance:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : wireUnitRes.toFixed(2) + " Ω/m"}</p>
-                            <p><span className="font-bold">Cable Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : statusVal === 2 ? "Leak Detected" : cableLength.toFixed(2) + " m"}</p>
+                            <p><span className="font-bold">Cable Length:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : cableLength.toFixed(2) + " m"}</p>
                             <p><span className="font-bold">Leak Status:</span> {statusMsg}</p>
                             <p><span className="font-bold">Leak Position:</span> {statusVal === 1 ? "Disconnected" : leakPos > 0 ? leakPos.toFixed(2) + " m" : "No Leaks"}</p>
                             <p><span className="font-bold">Wire Connection Status:</span> {statusVal === 1 || statusVal === 3 ? "Disconnected" : "Connected"}</p>
