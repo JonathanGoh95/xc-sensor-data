@@ -18,8 +18,8 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
         const dryBase = parseInt(payloadLast?.slice(25, -20), 16) || 0;
         const rawMoisture = parseInt(payloadLast?.slice(29, -16), 16) || 0;
         const ldr = parseInt(payloadLast?.slice(33, -12), 16) || 0;
-        const temp = parseFloat(parseInt(payloadLast?.slice(37, -8), 16) / 10) || 0;
-        const moisturePct = parseFloat(parseInt(payloadLast?.slice(41, -4), 16) / 10) || 0;
+        const temp = parseInt(payloadLast?.slice(37, -8), 16) / 10 || 0;
+        const moisturePct = parseInt(payloadLast?.slice(41, -4), 16) / 10 || 0;
         const mode = parseInt(payloadLast?.slice(45, -2), 16) || 0;
         let modeStatus;
         if (mode === 0){
@@ -93,8 +93,8 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
                     const dryBase = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -20),16)|| 0;
                     const rawMoisture = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -16),16) || '';
                     const ldr = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(33, -12), 16) || 0;
-                    const temp = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(37, -8), 16) / 10) || 0;
-                    const moisturePct = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(41, -4), 16) / 10) || 0;
+                    const temp = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(37, -8), 16) / 10 || 0;
+                    const moisturePct = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(41, -4), 16) / 10 || 0;
                     const mode = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(45, -2), 16) || 0;
                     let modeStatus;
                     if (mode === 0){
