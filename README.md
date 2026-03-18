@@ -1,6 +1,6 @@
 # Exceltec (XC) Sensor Data Decoder (Private/Closed Application)
 
-![XC Logo](./images/logo.png)
+<img src="./images/logo.png" alt="XC Logo" width="500" height="500">
 
 ## Key Pointers
 
