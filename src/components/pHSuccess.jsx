@@ -15,8 +15,8 @@ export default function PHSuccess({pageItems,results,handleBack,handleRefresh}){
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -10), 16) || 0;
-        const phValue = parseFloat(parseInt(payloadLast?.slice(25, -8), 16) / 10) || 0;
-        const temp = parseFloat(parseInt(payloadLast?.slice(27, -4), 16) / 10) || 0;
+        const phValue = parseInt(payloadLast?.slice(25, -8), 16) / 10 || 0;
+        const temp = parseInt(payloadLast?.slice(27, -4), 16) / 10 || 0;
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
             datetime: new Date(res.created_at).toLocaleString(),
@@ -68,8 +68,8 @@ export default function PHSuccess({pageItems,results,handleBack,handleRefresh}){
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
                 {pageItems.map((res) => {
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -10),16) || '';
-                    const pHValue = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -8),16) / 10) || 0;
-                    const temp = parseFloat(parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -4),16) / 10) || '';
+                    const pHValue = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -8),16) / 10 || 0;
+                    const temp = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -4),16) / 10 || '';
                     
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">
