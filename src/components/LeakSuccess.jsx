@@ -15,8 +15,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
         0: 'Normal (No Leaks)',
         1: 'Cable Disconnection',
         2: 'Leak Detected',
-        3: 'Cable Disconnection + Leakage',
-        4: 'Anomaly',
+        3: 'Anomaly',
     };
 
     const chartData = pageItems
@@ -31,11 +30,10 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
         const wireUnitRes = wireUnitResRaw / 10.0;
         const leakPos = statusVal === 2 || statusVal === 3 ? leakPosRaw / wireUnitRes : 0;
         const cableLength = wireResRaw / wireUnitRes;
-        let statusCode = 4; // default -> Anomaly
+        let statusCode = 3; // default -> Anomaly
         if (statusVal === 0) statusCode = 0;
         else if (statusVal === 1) statusCode = 1;
         else if (statusVal === 2) statusCode = 2;
-        else if (statusVal === 3) statusCode = 3;
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
@@ -64,11 +62,11 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
             <div>Device Address: {p.devAddr}</div>
-            <div>Cable Resistance: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireUnitRes.toFixed(2) + " Ω/m"}</div>
-            <div>Cable Length: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : p.cableLength.toFixed(2) + " m"}</div>
+            <div>Cable Resistance: {p.statusCode === 1 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireUnitRes.toFixed(2) + " Ω/m"}</div>
+            <div>Cable Length: {p.statusCode === 1 ? "Disconnected" : p.cableLength.toFixed(2) + " m"}</div>
             <div>Leak Status: {statusLabel}</div>
             <div>Leak Position: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos.toFixed(2) + " m" : "No Leaks"}</div>
-            <div>Wire Connection Status: {p.statusCode === 1 || p.statusCode === 3 ? "Disconnected" : "Connected"}</div>
+            <div>Wire Connection Status: {p.statusCode === 1 ? "Disconnected" : "Connected"}</div>
         </div>
     );
     }
@@ -87,9 +85,9 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 3]}
+                    domain={[0, 2]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2,3]}
+                    ticks={[0,1,2]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
                     width={225}
@@ -121,8 +119,6 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                         statusMsg = "Cable Disconnection";
                     } else if (statusVal === 2){
                         statusMsg = "Leak Detected";
-                    } else if (statusVal === 3){
-                        statusMsg = "Cable Disconnection + Leakage";
                     }
 
                     return (
