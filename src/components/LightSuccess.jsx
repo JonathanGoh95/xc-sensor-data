@@ -20,6 +20,7 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
         const temp = parseFloat(parseInt(payloadLast?.slice(33, -2),16) / 10) || 0;
         
         return {
+            time: new Date(res.created_at).toLocaleTimeString(),
             datetime: new Date(res.created_at).toLocaleString(),
             seq: sequenceNumber,
             sensor_id: res.sensor_id,
@@ -57,7 +58,7 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
             <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="seq" tick={{ fontSize: 15 }} tickFormatter={(v) => v}/>
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
                 {/* Left axis for sequence numbers */}
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis
@@ -68,9 +69,10 @@ export default function LightSuccess({pageItems,results,handleBack,handleRefresh
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="ldr1" name="LDR 1" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="ldr2" name="LDR 2" stroke="#E53E3E" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#FFDA03" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#9532A8" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>

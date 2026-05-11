@@ -20,6 +20,7 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
         const testRaw = parseInt(payloadLast?.slice(39, -2),16) || 0;
         
         return {
+            time: new Date(res.created_at).toLocaleTimeString(),
             datetime: new Date(res.created_at).toLocaleString(),
             seq: sequenceNumber,
             sensor_id: res.sensor_id,
@@ -63,7 +64,7 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
             <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="seq" tick={{ fontSize: 15 }} tickFormatter={(v) => v}/>
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
                 {/* Left axis for sequence numbers */}
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis
@@ -74,6 +75,7 @@ export default function KEDSuccess({pageItems,results,handleBack,handleRefresh})
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend />
+                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="reference" name="Internal Reference" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="brightness" name="Brightness" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>

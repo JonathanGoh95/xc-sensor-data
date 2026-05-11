@@ -25,7 +25,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
     }
 
     return(
-        <div className="flex items-center justify-center gap-2 m-4 flex-wrap text-xs md:text-sm lg:text-base">
+        <div className="flex items-center justify-center gap-2 m-4 flex-wrap text-xs md:text-sm lg:text-base w-full">
             {/* Prev page */}
             <button
                 className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer"

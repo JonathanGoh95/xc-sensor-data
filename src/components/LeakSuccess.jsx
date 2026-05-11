@@ -77,7 +77,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
-            <ResponsiveContainer width="110%" height="110%">
+            <ResponsiveContainer width="116%" height="110%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="time" tick={{ fontSize: 15 }} />
