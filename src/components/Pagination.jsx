@@ -25,7 +25,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
     }
 
     return(
-        <div className="flex items-center justify-center gap-2 m-4 flex-wrap text-xs md:text-sm lg:text-base w-full">
+        <div className="flex items-center justify-center gap-2 flex-wrap text-xs md:w-full md:text-sm lg:text-base">
             {/* Prev page */}
             <button
                 className="border px-2 md:px-3 py-1 rounded disabled:opacity-50 text-xs md:text-sm hover:cursor-pointer"
@@ -50,7 +50,7 @@ export default function Pagination({groupStart,groupEnd,page,pageNumbers,setPage
             {pageNumbers.map((num) => (
                 <button
                     key={num}
-                    className={"hover:cursor-pointer px-2 md:px-3 py-1 border rounded text-xs md:text-sm " + (num === page && "bg-orange-400")}
+                    className={"hover:cursor-pointer px-1.5 md:px-2 lg:px-3 py-1 border rounded text-xs md:text-sm " + (num === page && "bg-orange-400")}
                     onClick={() => handlePageChange(num)}
                     aria-current={num === page ? 'page' : undefined}
                 >
