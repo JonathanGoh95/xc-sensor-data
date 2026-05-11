@@ -76,8 +76,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Leak Sensor Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
-            <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
-            <ResponsiveContainer width="116%" height="110%">
+            <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0">
+            <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="time" tick={{ fontSize: 15 }} />
@@ -90,7 +90,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                     ticks={[0,1,2]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
-                    width={225}
+                    width={140}
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />

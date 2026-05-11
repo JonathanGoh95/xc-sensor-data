@@ -88,7 +88,7 @@ export default function Results(){
         return(
             <>
             {/* Pagination controls (grouped page numbers, groups of 10) */}
-            {results.success === 1 && data.length > 0 && !loading && <Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages} dataLength={data.length}/>}
+            {results.success === 1 && data.length > 0 && !loading && <div className="mt-2 -mb-2"><Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages} dataLength={data.length}/></div>}
             <div className="flex flex-col items-center justify-center mt-5 text-lg md:text-2xl gap-4 px-4 md:px-0">
                 {loading ? <Loading /> : null}
                 {!loading && (
@@ -119,8 +119,8 @@ export default function Results(){
                     )
                 )}
                 {/* Pagination controls (grouped page numbers, groups of 10) */}
-                {results.success === 1 && data.length > 0 && !loading && <Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages} dataLength={data.length}/>}
-            </div>
+                </div>
+                {results.success === 1 && data.length > 0 && !loading && <div className="mt-4 pb-4"><Pagination groupStart={groupStart} groupEnd={groupEnd} page={page} pageNumbers={pageNumbers} setPage={setPage} totalPages={totalPages} dataLength={data.length}/></div>}
             </>
         )
     }
