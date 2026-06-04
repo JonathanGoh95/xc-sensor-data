@@ -65,7 +65,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="105%" height="105%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="time" tick={{ fontSize: 15 }} />
@@ -74,12 +74,12 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 3]}
+                    domain={[0, 2]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2,3]}
+                    ticks={[0,1,2]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
-                    width={150}
+                    width={80}
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
@@ -93,7 +93,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
                 {pageItems.map((res) => {
                     const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
-                    const sequenceNumber = parseInt(payloadLast?.slice(17, -14),16) || '';
+                    const sequenceNumber = parseInt(payloadLast?.slice(17, -16),16) || '';
                     const calibMode = parseInt(payloadLast?.slice(25, -14), 16) || 0;
                     const calibCoef = parseFloat(parseInt(payloadLast?.slice(27, -12), 16) / 100) || 0;
                     const numLitres = parseFloat(parseInt(payloadLast?.slice(29, -4), 16) / 100) || 0;

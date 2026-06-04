@@ -50,8 +50,8 @@ export default function PHSuccess({pageItems,results,handleBack,handleRefresh}){
             <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">pH Sensor Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
-            <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0 mb-4">
-            <ResponsiveContainer width="100%" height="100%">
+            <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0">
+            <ResponsiveContainer width="105%" height="105%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="time" tick={{ fontSize: 15 }} />
@@ -66,7 +66,7 @@ export default function PHSuccess({pageItems,results,handleBack,handleRefresh}){
                 </ComposedChart>
             </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
                     const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -10),16) || '';
                     const pHValue = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -8),16) / 10 || 0;
