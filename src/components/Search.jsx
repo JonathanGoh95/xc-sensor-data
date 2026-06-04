@@ -12,6 +12,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'soil') setQuery(import.meta.env.VITE_SOIL)
         else if (sensorType === 'float') setQuery(import.meta.env.VITE_FLOAT)
         else if (sensorType === 'leak') setQuery(import.meta.env.VITE_LEAK)
+        else if (sensorType === 'iaq') setQuery(import.meta.env.VITE_IAQ)
         else setQuery('')
     }, [sensorType, setQuery])
 
@@ -29,6 +30,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="soil">Soil Sensor</option>
                     <option value="float">Float Switch Sensor</option>
                     <option value="leak">Leak Sensor</option>
+                    <option value="iaq">IAQ Sensor</option>
                 </select>
                 <label className="font-bold italic text-xl md:text-2xl">Enter Location ID: </label>
                 <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={queryID} type='text' placeholder='Location ID' onChange={({target})=>setQueryID((target.value))} maxLength={4} required></input>

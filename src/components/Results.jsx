@@ -14,6 +14,7 @@ import WaterflowSuccess from "./WaterflowSuccess"
 import SoilSuccess from "./SoilSuccess"
 import FloatSuccess from "./FloatSuccess"
 import LeakSuccess from "./LeakSuccess"
+import IAQSuccess from "./IAQSuccess"
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('dwt')
@@ -113,6 +114,8 @@ export default function Results(){
                         <FloatSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "leak" ?
                         <LeakSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "iaq" ?
+                        <IAQSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         <NoResults handleBack={handleBack}/>
                     ) : (
                         <NoResults handleBack={handleBack}/>
