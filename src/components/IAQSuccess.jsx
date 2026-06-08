@@ -76,7 +76,7 @@ export default function IAQSuccess({pageItems,results,handleBack,handleRefresh})
             <ResponsiveContainer width="105%" height="105%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={10}/>
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={5}/>
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v}/>
                 <YAxis
                     yAxisId="right"
@@ -89,7 +89,7 @@ export default function IAQSuccess({pageItems,results,handleBack,handleRefresh})
                 />
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
-                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#B8860B" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="etoh" name="Ethanol" stroke="#1E90FF" yAxisId="left" strokeWidth={2} dot={{ r: 3 }}/>
                 <Line type="monotone" dataKey="tvoc" name="Total VOC" stroke="#FF6347" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="eco2" name="Equivalent CO2" stroke="#228B22" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />

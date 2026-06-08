@@ -80,7 +80,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
             <ResponsiveContainer width="105%" height="105%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 15 }} />
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={5}/>
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis
                     yAxisId="right"

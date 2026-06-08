@@ -13,6 +13,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'float') setQuery(import.meta.env.VITE_FLOAT)
         else if (sensorType === 'leak') setQuery(import.meta.env.VITE_LEAK)
         else if (sensorType === 'iaq') setQuery(import.meta.env.VITE_IAQ)
+        else if (sensorType === 'touch') setQuery(import.meta.env.VITE_TOUCH)
         else setQuery('')
     }, [sensorType, setQuery])
 
@@ -22,7 +23,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                 <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2 hover:cursor-pointer text-center" name="sensorType" value={sensorType} onChange={({target})=>setSensorType(target.value)}>
                     <option value="dwt">DWT Sensor</option>
                     <option value="bin">Bin Sensor</option>
-                    <option value="ked">KED Sensor</option>
+                    {/* <option value="ked">KED Sensor</option> */}
                     <option value="light">Light Sensor</option>
                     <option value="people">People Counter</option>
                     <option value="pH">pH Sensor</option>
@@ -31,6 +32,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="float">Float Switch Sensor</option>
                     <option value="leak">Leak Sensor</option>
                     <option value="iaq">IAQ Sensor</option>
+                    <option value="touch">Toilet Panel (Touchscreen)</option>
                 </select>
                 <label className="font-bold italic text-xl md:text-2xl">Enter Location ID: </label>
                 <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={queryID} type='text' placeholder='Location ID' onChange={({target})=>setQueryID((target.value))} maxLength={4} required></input>
