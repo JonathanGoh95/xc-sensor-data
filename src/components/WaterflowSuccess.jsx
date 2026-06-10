@@ -98,6 +98,8 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                     const calibCoef = parseFloat(parseInt(payloadLast?.slice(27, -12), 16) / 100) || 0;
                     const numLitres = parseFloat(parseInt(payloadLast?.slice(29, -4), 16) / 100) || 0;
                     
+                    let calibStatus = (calibMode === 255) ? "Calibration" : (calibMode === 0) ? "Normal" : "Anomaly";
+
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">
                             <p><span className="font-bold">Sensor ID:</span> {res.sensor_id}</p>
@@ -106,7 +108,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Calibration Mode:</span> {calibMode}</p>
+                            <p><span className="font-bold">Calibration Mode:</span> {calibStatus}</p>
                             <p><span className="font-bold">Calibration Coefficient:</span> {calibCoef}</p>
                             <p><span className="font-bold">Number of Litres:</span> {numLitres}</p>
                         </div>
