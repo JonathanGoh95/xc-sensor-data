@@ -52,9 +52,9 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
-            <div>Calibration Mode: {calibLabel}</div>
-            <div>Calibration Coefficient: {p.calibCoef}</div>
             <div>Number of Litres: {p.numLitres}</div>
+            <div>Calibration Coefficient: {p.calibCoef}</div>
+            <div>Calibration Mode: {calibLabel}</div>
         </div>
     );
     }
@@ -108,9 +108,9 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Calibration Mode:</span> {calibStatus}</p>
-                            <p><span className="font-bold">Calibration Coefficient:</span> {calibCoef}</p>
                             <p><span className="font-bold">Number of Litres:</span> {numLitres}</p>
+                            <p><span className="font-bold">Calibration Coefficient:</span> {calibCoef}</p>
+                            <p><span className="font-bold">Calibration Mode:</span> {calibStatus}</p>
                         </div>
                     )
                 })}
