@@ -21,9 +21,8 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
     const chartData = pageItems
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
-    const sequenceNumber = parseInt(payloadLast?.slice(17, -10), 16) || 0;
-    const voltage = parseInt(payloadLast?.slice(25, -6), 16);
-    const statusRaw = parseInt(payloadLast?.slice(29, -4), 16);
+    const sequenceNumber = parseInt(payloadLast?.slice(17, -6), 16) || 0;
+    const statusRaw = parseInt(payloadLast?.slice(25, -4), 16);
     let statusCode = 0; // default -> Anomaly
     if (statusRaw === 255) statusCode = 1; // Full
     else if (statusRaw === 0) statusCode = 2; // Heartbeat
@@ -33,7 +32,6 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
             time: new Date(res.created_at).toLocaleTimeString(),
             seq: sequenceNumber,
             site: res.site_name,
-            voltage,
             statusCode,
             sensor_id: res.sensor_id,
             gateway_id: res.gateway_id,
@@ -51,7 +49,6 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
             <div>Gateway: {p.gateway_id}</div>
             <div>Site: {p.site}</div>
             <div>Sequence Number: {p.seq}</div>
-            <div>Voltage: {p.voltage}</div>
             <div>Status: {statusLabel}</div>
         </div>
     );
@@ -81,21 +78,19 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="voltage" name="Voltage" stroke="#38761D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
-                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -10),16) || '';
-                    const voltage = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -6),16);
-                    const statusRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -4),16);
-                    let isFull = "Anomaly";
+                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -6),16) || '';
+                    const statusRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4),16);
+                    let status = "Anomaly";
                     if(statusRaw === 0){
-                        isFull = "Full";
+                        status = "Full";
                     } else if (statusRaw === 255){
-                        isFull = "Heartbeat";
+                        status = "Heartbeat";
                     }
 
                     return (
@@ -106,8 +101,7 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Site:</span> {res.site_name} (ID: {res.site_id})</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
-                            <p><span className="font-bold">Voltage:</span> {voltage} V</p>
-                            <p><span className="font-bold">Status:</span> {isFull}</p>
+                            <p><span className="font-bold">Status:</span> {status}</p>
                         </div>
                     )
                 })}
