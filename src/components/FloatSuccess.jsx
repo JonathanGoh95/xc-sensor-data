@@ -13,9 +13,10 @@ import {
 export default function FloatSuccess({pageItems,results,handleBack,handleRefresh}){
     // Order ticks 0..2 so they display as: Heartbeat, Full, Anomaly
     const STATUS_MAP = {
-        0: 'Anomaly',
-        1: 'Heartbeat',
-        2: 'Full',
+        0: 'Heartbeat',
+        1: 'Triggered',
+        2: 'Cleared',
+        3: 'Anomaly',
     };
 
     const chartData = pageItems
@@ -23,9 +24,10 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
     const sequenceNumber = parseInt(payloadLast?.slice(17, -6), 16) || 0;
     const statusRaw = parseInt(payloadLast?.slice(25, -4), 16);
-    let statusCode = 0; // default -> Anomaly
-    if (statusRaw === 255) statusCode = 1; // Full
-    else if (statusRaw === 0) statusCode = 2; // Heartbeat
+    let statusCode = 3; // default -> Anomaly
+    if (statusRaw === 0) statusCode = 0; // Triggered
+    else if (statusRaw === 255) statusCode = 1; // Heartbeat
+    else if (statusRaw === 170) statusCode = 2; // Float Ball No Longer Triggered
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
@@ -68,9 +70,9 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 2]}
+                    domain={[0, 3]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2]}
+                    ticks={[0,1,2,3]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
                     width={80}
@@ -91,6 +93,9 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                         status = "Full";
                     } else if (statusRaw === 255){
                         status = "Heartbeat";
+                    }
+                    else if (statusRaw === 170){
+                        status = "Cleared";
                     }
 
                     return (

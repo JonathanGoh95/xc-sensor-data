@@ -13,8 +13,8 @@ import {
 export default function BinSuccess({pageItems,results,handleBack,handleRefresh}){
     const STATUS_MAP = {
         0: 'Calibrating',
-        1: 'Full',
-        2: 'Heartbeat',
+        1: 'Heartbeat',
+        2: 'Full',
         3: 'Cleared',
         4: 'Anomaly',
     };
@@ -29,9 +29,9 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
         const curr = parseInt(payloadLast?.slice(35, -4), 16);
         let statusCode = 4; // default -> Anomaly
         if (isFullRaw === 0) statusCode = 0;
-        else if (isFullRaw === 1) statusCode = 1;
+        else if (isFullRaw === 255) statusCode = 1;
+        else if (isFullRaw === 1) statusCode = 2;
         else if (isFullRaw === 3) statusCode = 3;
-        else if (isFullRaw === 255) statusCode = 2;
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
