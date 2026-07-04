@@ -80,9 +80,9 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 3]}
+                    domain={[0, 4]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2,3]}
+                    ticks={[0,1,2,3,4]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
                     width={80}
