@@ -15,7 +15,8 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
         0: 'Calibrating',
         1: 'Full',
         2: 'Heartbeat',
-        3: 'Anomaly',
+        3: 'Cleared',
+        4: 'Anomaly',
     };
 
     const chartData = pageItems
@@ -26,9 +27,10 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
         const alert = parseInt(payloadLast?.slice(27, -12), 16);
         const maxCalib = parseInt(payloadLast?.slice(31, -8), 16);
         const curr = parseInt(payloadLast?.slice(35, -4), 16);
-        let statusCode = 3; // default -> Anomaly
+        let statusCode = 4; // default -> Anomaly
         if (isFullRaw === 0) statusCode = 0;
         else if (isFullRaw === 1) statusCode = 1;
+        else if (isFullRaw === 3) statusCode = 3;
         else if (isFullRaw === 255) statusCode = 2;
         
         return {
@@ -109,6 +111,8 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
                         isFull = "Full";
                     } else if (isFullRaw === 255){
                         isFull = "Heartbeat";
+                    } else if (isFullRaw === 3){
+                        isFull = "Cleared";
                     }
 
                     return (
