@@ -73,7 +73,7 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0">
             <ResponsiveContainer width="105%" height="105%">
-                <ComposedChart data={chartData}>
+                <ComposedChart data={chartData} margin={{top:10}}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={5}/>
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v}/>
