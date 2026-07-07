@@ -25,8 +25,8 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
     const sequenceNumber = parseInt(payloadLast?.slice(17, -6), 16) || 0;
     const statusRaw = parseInt(payloadLast?.slice(25, -4), 16);
     let statusCode = 3; // default -> Anomaly
-    if (statusRaw === 0) statusCode = 0; // Triggered
-    else if (statusRaw === 255) statusCode = 1; // Heartbeat
+    if (statusRaw === 255) statusCode = 0; // Heartbeat
+    else if (statusRaw === 0) statusCode = 1; // Triggered
     else if (statusRaw === 170) statusCode = 2; // Float Ball No Longer Triggered
         
         return {
