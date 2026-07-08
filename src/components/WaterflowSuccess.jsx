@@ -12,8 +12,8 @@ import {
 
 export default function WaterflowSuccess({pageItems,results,handleBack,handleRefresh}){
     const STATUS_MAP = {
-        0: 'Normal',
-        1: 'Calibration',
+        0: 'Calibration',
+        1: 'Normal',
         2: 'Anomaly',
     };
     
@@ -25,8 +25,8 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
         const calibCoef = parseFloat(parseInt(payloadLast?.slice(27, -12), 16) / 100) || 0;
         const numLitres = parseFloat(parseInt(payloadLast?.slice(29, -4), 16) / 100) || 0;
         let calibMode = 2; // Default: Anomaly
-        if (calibModeRaw === 255) calibMode = 1;
-        else if (calibModeRaw === 0) calibMode = 0;
+        if (calibModeRaw === 255) calibMode = 0;
+        else if (calibModeRaw === 0) calibMode = 1;
 
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
