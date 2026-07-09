@@ -90,7 +90,7 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                     const statusRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -4),16);
                     let status = "Anomaly";
                     if(statusRaw === 0){
-                        status = "Full";
+                        status = "Triggered";
                     } else if (statusRaw === 255){
                         status = "Heartbeat";
                     }
