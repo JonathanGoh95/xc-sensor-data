@@ -15,7 +15,8 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
         0: 'Too Low',
         1: 'Normal',
         2: 'Too High',
-        3: 'Anomaly',
+        3: 'Cleared',
+        4: 'Anomaly',
     };
     
     const chartData = pageItems
@@ -23,17 +24,20 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
         const sequenceNumber = parseInt(payloadLast?.slice(17, -10), 16) || 0;
         const statusRaw = payloadLast?.slice(25, -6) || '';
-        const alertRaw = payloadLast?.slice(29, -4) || '';
+        const alertRaw = parseInt(payloadLast?.slice(29, -4),16) || 0;
         let alert;
-        let statusCode = 3; // default -> Anomaly
-        if (alertRaw === "00"){
+        let statusCode = 4; // default -> Anomaly
+        if (alertRaw === 0){
             alert = "Yes";
+        } else if (alertRaw === 1){
+            alert = "Cleared";
         } else{
             alert = "No";
         }
         if (statusRaw === "00FF") statusCode = 0;
         else if (statusRaw === "0000") statusCode = 1;
         else if (statusRaw === "FF00") statusCode = 2;
+        if (alertRaw === 1) statusCode = 3;
         
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
@@ -80,9 +84,9 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 3]}
+                    domain={[0, 4]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2,3]}
+                    ticks={[0,1,2,3,4]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
                     width={70}
@@ -96,13 +100,16 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
-                    const statusRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -6) || '';
-                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -10),16) || '';
-                    const alertRaw = res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(29, -4) || '';
+                    const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
+                    const sequenceNumber = parseInt(payloadLast?.slice(17, -10),16) || 0;
+                    const statusRaw = payloadLast?.slice(25, -6) || '';
+                    const alertRaw = parseInt(payloadLast?.slice(29, -4),16) || 0;
                     let alert;
                     let statusMessage;
-                    if (alertRaw === "00"){
+                    if (alertRaw === 0){
                         alert = "Yes";
+                    } else if (alertRaw === 1){
+                        alert = "Cleared";
                     } else{
                         alert = "No";
                     }
