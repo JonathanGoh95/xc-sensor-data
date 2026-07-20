@@ -13,7 +13,7 @@ import {
 export default function DWTSuccess({pageItems,results,handleBack,handleRefresh}){
     const STATUS_MAP = {
         0: 'Too Low',
-        1: 'Normal',
+        1: 'Heartbeat',
         2: 'Too High',
         3: 'Cleared',
         4: 'Anomaly',
@@ -114,7 +114,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                         alert = "No";
                     }
                     if (statusRaw === "0000") {
-                        statusMessage = `Water Level is Normal (${statusRaw})`;
+                        statusMessage = "Heartbeat";
                     } else if (statusRaw === "FF00") {
                         statusMessage = `Water Level is Too High (${statusRaw})`;
                     } else if (statusRaw === "00FF") {
