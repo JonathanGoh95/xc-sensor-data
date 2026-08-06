@@ -5,6 +5,7 @@ import Loading from "./Loading"
 import NoResults from "./NoResults"
 import DWTSuccess from "./DWTSuccess"
 import BinSuccess from "./BinSuccess"
+import PacketSuccess from "./PacketSuccess"
 // import KEDSuccess from "./KEDSuccess"
 import PeopleSuccess from "./PeopleSuccess"
 import Pagination from "./Pagination"
@@ -18,7 +19,7 @@ import IAQSuccess from "./IAQSuccess"
 import TouchSuccess from "./TouchSuccess"
 
 export default function Results(){
-    const [sensorType,setSensorType] = useState('dwt')
+    const [sensorType,setSensorType] = useState('')
     const [query,setQuery] = useState('')
     const [queryID,setQueryID] = useState('')
     const [searched,setSearched] = useState(false)
@@ -36,7 +37,7 @@ export default function Results(){
     
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const paddedID = String(queryID).padStart(4,'0')
+        const paddedID = sensorType === "pkt" ? "000F" : String(queryID).padStart(4,'0')
         setQueryID(paddedID)
         setSearched(true)
         setPage(1)
@@ -95,6 +96,8 @@ export default function Results(){
                 {loading ? <Loading /> : null}
                 {!loading && (
                     results.success === 1 && data.length > 0 ? (
+                        sensorType === "pkt" ? 
+                        <PacketSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "dwt" ? 
                         <DWTSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "bin" ?

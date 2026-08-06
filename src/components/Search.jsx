@@ -7,6 +7,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'ked') setQuery(import.meta.env.VITE_KED)
         else if (sensorType === 'light') setQuery(import.meta.env.VITE_LIGHT)
         else if (sensorType === 'people') setQuery(import.meta.env.VITE_PEOPLE)
+        else if (sensorType === 'pkt') setQuery(import.meta.env.VITE_PEOPLE)
         else if (sensorType === 'pH') setQuery(import.meta.env.VITE_PH)
         else if (sensorType === 'water') setQuery(import.meta.env.VITE_WATER)
         else if (sensorType === 'soil') setQuery(import.meta.env.VITE_SOIL)
@@ -20,7 +21,9 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
     return(
             <form className="flex flex-col items-center justify-center gap-4 mt-6 px-4 md:px-0" onSubmit={handleSubmit}>
                 <label className="font-bold italic text-xl md:text-2xl">Select Sensor Type: </label>
-                <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2 hover:cursor-pointer text-center" name="sensorType" value={sensorType} onChange={({target})=>setSensorType(target.value)}>
+                <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2 hover:cursor-pointer text-center" name="sensorType" defaultValue={sensorType} value={sensorType} onChange={({target})=>setSensorType(target.value)} required>
+                    <option value="" disabled hidden>Select Sensor Type</option>
+                    <option value="pkt">Heltec Packet Sender</option>
                     <option value="dwt">DWT Sensor</option>
                     <option value="bin">Bin Sensor</option>
                     {/* <option value="ked">KED Sensor</option> */}
@@ -34,8 +37,8 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="iaq">IAQ Sensor</option>
                     <option value="touch">Toilet Panel (Touchscreen)</option>
                 </select>
-                <label className="font-bold italic text-xl md:text-2xl">Enter Location ID: </label>
-                <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={queryID} type='text' placeholder='Location ID' onChange={({target})=>setQueryID((target.value))} maxLength={4} required></input>
+                {sensorType != "pkt" && <label className="font-bold italic text-xl md:text-2xl">Enter Location ID: </label>}
+                {sensorType != "pkt" && <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={queryID} type='text' placeholder='Location ID' onChange={({target})=>setQueryID((target.value))} maxLength={4} required></input>}
                 <button className="border-2 text-lg md:text-2xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer italic w-auto hover:cursor-pointer" type="submit">Search</button>
             </form>
         )
