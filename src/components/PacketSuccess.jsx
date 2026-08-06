@@ -45,10 +45,10 @@ export default function PacketSuccess({pageItems,results,handleBack,handleRefres
             <ResponsiveContainer width="105%" height="105%">
                 <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={5} interval={0}/>
+                <XAxis dataKey="time" tick={{ fontSize: 15 }} tickMargin={5}/>
                 {/* Left axis for sequence numbers */}
-                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} width={25}/>
-                <YAxis yAxisId="right" orientation="right" width={25}/>
+                <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} width={40}/>
+                <YAxis yAxisId="right" orientation="right" width={40}/>
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="linear" dataKey="seq" name="Sequence Number" stroke="#E53E3E" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
