@@ -9,6 +9,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'people') setQuery(import.meta.env.VITE_PEOPLE)
         else if (sensorType === 'pkt') setQuery(import.meta.env.VITE_PEOPLE)
         else if (sensorType === 'pH') setQuery(import.meta.env.VITE_PH)
+        else if (sensorType === 'pHChlorine') setQuery(import.meta.env.VITE_PH_CHLORINE)
         else if (sensorType === 'water') setQuery(import.meta.env.VITE_WATER)
         else if (sensorType === 'soil') setQuery(import.meta.env.VITE_SOIL)
         else if (sensorType === 'float') setQuery(import.meta.env.VITE_FLOAT)
@@ -30,6 +31,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="light">Light Sensor</option>
                     <option value="people">People Counter</option>
                     <option value="pH">pH Sensor</option>
+                    <option value="pHChlorine">pH + Chlorine Sensor</option>
                     <option value="water">Waterflow Sensor</option>
                     <option value="soil">Soil Sensor</option>
                     <option value="float">Float Switch Sensor</option>

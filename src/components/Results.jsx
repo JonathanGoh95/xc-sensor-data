@@ -11,6 +11,7 @@ import PeopleSuccess from "./PeopleSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
 import PHSuccess from "./pHSuccess"
+import PHChlorineSuccess from "./pHChlorineSuccess"
 import WaterflowSuccess from "./WaterflowSuccess"
 import SoilSuccess from "./SoilSuccess"
 import FloatSuccess from "./FloatSuccess"
@@ -110,6 +111,8 @@ export default function Results(){
                         <PeopleSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pH" ?
                         <PHSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "pHChlorine" ?
+                        <PHChlorineSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "water" ?
                         <WaterflowSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "soil" ?
