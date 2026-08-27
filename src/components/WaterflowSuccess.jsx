@@ -54,7 +54,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
             <div>Sequence Number: {p.seq}</div>
             <div>Number of Litres: {p.numLitres}</div>
             <div>Calibration Coefficient: {p.calibCoef}</div>
-            <div>Calibration Mode: {calibLabel}</div>
+            <div>Status: {calibLabel}</div>
         </div>
     );
     }
@@ -84,7 +84,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                 <Tooltip content={CustomTooltip} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="stepAfter" dataKey="calibMode" name="Calibration Mode" stroke="#FF0000" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="stepAfter" dataKey="calibMode" name="Status" stroke="#FF0000" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="calibCoef" name="Calibration Coefficient" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="numLitres" name="Number of Litres" stroke="#8FCE00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
@@ -110,7 +110,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
                             <p><span className="font-bold">Number of Litres:</span> {numLitres}</p>
                             <p><span className="font-bold">Calibration Coefficient:</span> {calibCoef}</p>
-                            <p><span className="font-bold">Calibration Mode:</span> {calibStatus}</p>
+                            <p><span className="font-bold">Status:</span> {calibStatus}</p>
                         </div>
                     )
                 })}
