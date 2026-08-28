@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import * as apiService from '../services/getAPI'
-import { AutoRefreshContext } from "../context/AutoRefreshContext"
+import { AutoRefreshContext, DEFAULT_REFRESH_INTERVAL } from "../context/AutoRefreshContext"
 import Search from "./Search"
 import Loading from "./Loading"
 import NoResults from "./NoResults"
@@ -30,7 +30,7 @@ export default function Results(){
     const [loading, setLoading] = useState(false)
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
     const [autoRefresh, setAutoRefresh] = useState(false)
-    const [refreshInterval, setRefreshInterval] = useState(30)   // Seconds between auto refreshes
+    const [refreshInterval, setRefreshInterval] = useState(DEFAULT_REFRESH_INTERVAL)   // Seconds between auto refreshes
     const [lastUpdated, setLastUpdated] = useState(null)         // Timestamp of the last successful fetch
     const [refreshing, setRefreshing] = useState(false)          // A silent auto-refresh tick is in flight
     const fetching = useRef(false)
