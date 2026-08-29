@@ -78,7 +78,7 @@ export default function FloatSuccess({pageItems,results,handleBack,handleRefresh
                     width={80}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>

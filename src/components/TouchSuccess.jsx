@@ -10,6 +10,9 @@ import {
     Legend,
 } from "recharts";
 
+// Legend display order, independent of the <Line> draw order (which controls z-stacking instead).
+const LEGEND_ORDER = ['Sequence Number', 'Rating', 'Fault Status'];
+
 export default function TouchSuccess({pageItems,results,handleBack,handleRefresh}){
     const RATING_MAP = {
         0: 'Heartbeat',
@@ -172,19 +175,25 @@ export default function TouchSuccess({pageItems,results,handleBack,handleRefresh
                     interval={0}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
-                {/* <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} /> */}
-                <Line type="stepAfter" dataKey="rating" name="Rating" stroke="#EE4B2B" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
-                <Line 
-                    type="monotone" 
+                {/* itemSorter picks legend order independently of draw order below (Legend's
+                    payload prop is ignored by Recharts - it always sources from internal state). */}
+                <Legend
+                    wrapperStyle={{ marginTop: '20px' }}
+                    itemSorter={(item) => LEGEND_ORDER.indexOf(item.value)}
+                />
+                {/* Draw order (bottom to top): Fault Status, Rating, Sequence Number - so the
+                    Sequence Number dots render on top since both it and Fault Status share dataKey="seq". */}
+                <Line
+                    type="monotone"
                     dataKey="seq"
                     name="Fault Status"
-                    stroke="#38761D" // Base line stays a neutral blue
+                    stroke="#38761D" // Base line stays a neutral green
                     dot={RenderCustomDot} // Dots turn green or red based on 'faults' value
                 />
-                <Line 
-                    type="monotone" 
-                    dataKey="seq" 
+                <Line type="stepAfter" dataKey="rating" name="Rating" stroke="#EE4B2B" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line
+                    type="monotone"
+                    dataKey="seq"
                     name="Sequence Number"
                     stroke="#FFFF00" // Clean base line color (e.g., Yellow)
                     strokeWidth={2}

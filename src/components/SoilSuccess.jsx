@@ -77,13 +77,13 @@ export default function SoilSuccess({pageItems,results,handleBack,handleRefresh}
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 15 }} tickFormatter={(v) => v} width={60}/>
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
-                <Line type="monotone" dataKey="dryBase" name="Dryness Base Value" stroke="#FF7518 " yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="rawMoisture" name="Raw Moisture Value" stroke="#00FF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="ldr" name="LDR Value" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="moisturePct" name="Moisture Percentage" stroke="#9532A8" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="moisturePct" name="Moisture Percentage" stroke="#9532A8" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="rawMoisture" name="Raw Moisture Value" stroke="#00FF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="dryBase" name="Dryness Base Value" stroke="#004D4D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="ldr" name="LDR Value" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>

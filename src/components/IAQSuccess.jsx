@@ -88,7 +88,7 @@ export default function IAQSuccess({pageItems,results,handleBack,handleRefresh})
                     width={80}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="etoh" name="Ethanol" stroke="#1E90FF" yAxisId="left" strokeWidth={2} dot={{ r: 3 }}/>
                 <Line type="monotone" dataKey="tvoc" name="Total VOC" stroke="#FF6347" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />

@@ -62,11 +62,11 @@ export default function PHChlorineSuccess({pageItems,results,handleBack,handleRe
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 15 }} tickFormatter={(v) => v} width={80}/>
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="pH" name="pH" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="chlorine" name="Chlorine" stroke="#9532A8" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="temp" name="Temperature" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>

@@ -13,8 +13,8 @@ import {
 export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}){
     const STATUS_MAP = {
         0: 'Normal (No Leaks)',
-        1: 'Cable Disconnection',
-        2: 'Leak Detected',
+        1: 'Leak Detected',
+        2: 'Cable Disconnection',
         3: 'Anomaly',
     };
 
@@ -32,8 +32,8 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
         const cableLength = wireResRaw / wireUnitRes;
         let statusCode = 3; // default -> Anomaly
         if (statusVal === 0) statusCode = 0;
-        else if (statusVal === 1) statusCode = 1;
-        else if (statusVal === 2) statusCode = 2;
+        else if (statusVal === 2) statusCode = 1;
+        else if (statusVal === 1) statusCode = 2;
         
         return {
             datetime: new Date(res.created_at).toLocaleString(),
@@ -85,19 +85,19 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                 <YAxis
                     yAxisId="right"
                     orientation="right"
-                    domain={[0, 2]}
+                    domain={[0, 3]}
                     tick={{ fontSize: 15 }}
-                    ticks={[0,1,2]}
+                    ticks={[0,1,2,3]}
                     tickFormatter={(v) => STATUS_MAP[v]}
                     allowDecimals={false}
                     width={140}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="cableLength" name="Cable Length (m)" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="leakPos" name="Leak Position" stroke="#38761D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Leak Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="leakPos" name="Leak Position" stroke="#38761D" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="cableLength" name="Cable Length (m)" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>

@@ -71,7 +71,7 @@ export default function PeopleSuccess({pageItems,results,handleBack,handleRefres
                     width={70}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="numPeople" name="Number of People" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="testCode" name="Testing Status" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />

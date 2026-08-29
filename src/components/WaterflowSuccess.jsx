@@ -82,11 +82,11 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                     width={80}
                 />
                 <Tooltip content={CustomTooltip} />
-                <Legend wrapperStyle={{ marginTop: '20px' }} />
+                <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="calibCoef" name="Calibration Coefficient" stroke="#9532A8" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="numLitres" name="Number of Litres" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="calibMode" name="Status" stroke="#FF0000" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="calibCoef" name="Calibration Coefficient" stroke="#FFA500" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="numLitres" name="Number of Litres" stroke="#8FCE00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>
             </ResponsiveContainer>
             </div>
