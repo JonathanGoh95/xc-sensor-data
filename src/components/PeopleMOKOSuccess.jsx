@@ -50,6 +50,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
         <div className="bg-white border p-2 text-sm shadow">
             <div className="font-bold">{p.datetime}</div>
             <div>Device EUI: {p.devEUI}</div>
+            <div>Device Address: {p.devAddr}</div>
             <div>Gateway EUI: {p.gateway_eui}</div>
             <div>Sensor ID: {p.sensorID}</div>
             <div>Sequence Number: {p.seq}</div>

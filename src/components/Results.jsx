@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import * as apiService from '../services/getAPI'
 import { AutoRefreshContext, DEFAULT_REFRESH_INTERVAL } from "../context/AutoRefreshContext"
 import Search from "./Search"
@@ -51,7 +51,7 @@ export default function Results(){
     // Silent fetches (manual Refresh + auto refresh) skip the loading screen so the
     // table is not blanked; they show the "Refreshing…" pulse instead. Initial search
     // still uses the full loading screen since there is no data to keep on screen.
-    const fetchResults = async (searchQuery, id, {silent = false} = {}) => {
+    const fetchResults = useCallback(async (searchQuery, id, {silent = false} = {}) => {
         if (fetching.current) return
         fetching.current = true
         setPage(1)
@@ -71,7 +71,7 @@ export default function Results(){
             else setLoading(false)
             fetching.current = false
         }
-    }
+    }, [sensorType])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -101,7 +101,7 @@ export default function Results(){
         if (!searched || !autoRefresh) return
         const timer = setInterval(() => fetchResults(query, queryID, {silent: true}), refreshInterval * 1000)
         return () => clearInterval(timer)
-    }, [searched, autoRefresh, refreshInterval, query, queryID, sensorType])
+    }, [searched, autoRefresh, refreshInterval, query, queryID, fetchResults])
 
     if (!searched){
         return <Search handleSubmit={handleSubmit} setQuery={setQuery} queryID={queryID} setQueryID={setQueryID} sensorType={sensorType} setSensorType={setSensorType}/>
