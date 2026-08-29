@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL ?? ''
+const BASE_LORAWAN_URL = import.meta.env.VITE_LORAWAN_URL ?? ''
 
 const api = async (sensorID,locationID) => {
     try{
@@ -12,4 +13,14 @@ const api = async (sensorID,locationID) => {
     }
 }
 
-export {api}
+const apiLORAWAN = async (sensorID) => {
+    try{
+        const query = await axios.get(`${BASE_LORAWAN_URL}/${sensorID}`);
+        return query.data;
+    } catch(err){
+        console.log("Error fetching LoRaWAN API Data: ", err);
+        throw err;
+    }
+}
+
+export {api, apiLORAWAN}

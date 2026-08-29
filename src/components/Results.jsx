@@ -9,6 +9,7 @@ import BinSuccess from "./BinSuccess"
 import PacketSuccess from "./PacketSuccess"
 // import KEDSuccess from "./KEDSuccess"
 import PeopleSuccess from "./PeopleSuccess"
+import PeopleMOKOSuccess from "./PeopleMOKOSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
 import PHSuccess from "./pHSuccess"
@@ -19,6 +20,11 @@ import FloatSuccess from "./FloatSuccess"
 import LeakSuccess from "./LeakSuccess"
 import IAQSuccess from "./IAQSuccess"
 import TouchSuccess from "./TouchSuccess"
+
+// Sensor types whose data comes from the LoRaWAN endpoint (apiService.apiLORAWAN).
+// Everything not listed here uses the default sensor-data endpoint (apiService.api).
+// Add a sensor type to this set to route it through the LoRaWAN backend.
+const LORAWAN_SENSORS = new Set(["peopleMOKO"])
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('')
@@ -52,7 +58,9 @@ export default function Results(){
         if (silent) setRefreshing(true)
         else setLoading(true)
         try {
-            const apiData = await apiService.api(searchQuery, id);
+            const apiData = LORAWAN_SENSORS.has(sensorType)
+                ? await apiService.apiLORAWAN(id)
+                : await apiService.api(searchQuery, id);
             setResults(apiData || []);
             setLastUpdated(new Date());
         } catch (err) {
@@ -67,7 +75,10 @@ export default function Results(){
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const paddedID = sensorType === "pkt" ? "000F" : String(queryID).padStart(4,'0')
+        let paddedID = sensorType === "pkt" ? "000F" : String(queryID).padStart(4,'0')
+        if (sensorType === "peopleMOKO" && paddedID === "0001"){
+            paddedID = "E8578BFFFF116096"
+        }
         setQueryID(paddedID)
         setSearched(true)
         await fetchResults(query, paddedID)
@@ -90,12 +101,17 @@ export default function Results(){
         if (!searched || !autoRefresh) return
         const timer = setInterval(() => fetchResults(query, queryID, {silent: true}), refreshInterval * 1000)
         return () => clearInterval(timer)
-    }, [searched, autoRefresh, refreshInterval, query, queryID])
+    }, [searched, autoRefresh, refreshInterval, query, queryID, sensorType])
 
     if (!searched){
         return <Search handleSubmit={handleSubmit} setQuery={setQuery} queryID={queryID} setQueryID={setQueryID} sensorType={sensorType} setSensorType={setSensorType}/>
     } else{
-        const data = results?.data || []
+        const rawData = results?.data || []
+        // peopleMOKO sends non-heartbeat uplinks (e.g. join/status) alongside people-count
+        // heartbeats; only heartbeat packets carry a usable people count, so filter before paginating.
+        const data = sensorType === "peopleMOKO"
+            ? rawData.filter((res) => res.payload?.uplink_message?.decoded_payload?.payloadType === "heartbeat")
+            : rawData
         const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE))
         const startIndex = (page - 1) * PAGE_SIZE
         const pageItems = data.slice(startIndex, startIndex + PAGE_SIZE)
@@ -125,6 +141,8 @@ export default function Results(){
                         <LightSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "people" ?
                         <PeopleSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "peopleMOKO" ?
+                        <PeopleMOKOSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pH" ?
                         <PHSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pHChlorine" ?
