@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -41,23 +42,16 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
         };
     })
 
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    const calibLabel = STATUS_MAP[p.calibMode] ?? 'Unknown';
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Sensor: {p.sensor_id}</div>
-            <div>Gateway: {p.gateway_id}</div>
-            <div>Site: {p.site}</div>
-            <div>Sequence Number: {p.seq}</div>
-            <div>Number of Litres: {p.numLitres}</div>
-            <div>Calibration Coefficient: {p.calibCoef}</div>
-            <div>Status: {calibLabel}</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "sensor_id", label: "Sensor ID" },
+        { key: "gateway_id", label: "Gateway ID" },
+        { key: "site", label: "Site" },
+        { key: "seq", label: "Sequence Number" },
+        { key: "numLitres", label: "Number of Litres" },
+        { key: "calibCoef", label: "Calibration Coefficient" },
+        { key: "calibMode", label: "Status", format: (v) => STATUS_MAP[v] ?? "Unknown" },
+    ]
 
     return(
         <>
@@ -81,7 +75,7 @@ export default function WaterflowSuccess({pageItems,results,handleBack,handleRef
                     allowDecimals={false}
                     width={80}
                 />
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="calibCoef" name="Calibration Coefficient" stroke="#9532A8" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />

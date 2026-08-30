@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -42,27 +43,20 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
         };
     })
     
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    const statusLabel = STATUS_MAP[p.statusCode] ?? 'Unknown';
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Device EUI: {p.devEUI}</div>
-            <div>Device Address: {p.devAddr}</div>
-            <div>Gateway EUI: {p.gateway_eui}</div>
-            <div>Sensor ID: {p.sensorID}</div>
-            <div>Sequence Number: {p.seq}</div>
-            <div>Number of People: {p.numPeople}</div>
-            <div>Low Battery Status: {statusLabel}</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "devEUI", label: "Device EUI" },
+        { key: "devAddr", label: "Device Address" },
+        { key: "gateway_eui", label: "Gateway EUI" },
+        { key: "sensorID", label: "Sensor ID" },
+        { key: "seq", label: "Sequence Number" },
+        { key: "numPeople", label: "Number of People" },
+        { key: "statusCode", label: "Low Battery Status", format: (v) => STATUS_MAP[v] ?? "Unknown" },
+    ]
 
     return(
         <>
-            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">People Counter (MOKO) Sensor Data</h1>
+            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">MOKO People Counter (LoRaWAN) Sensor Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0">
@@ -82,7 +76,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
                     allowDecimals={false}
                     width={80}
                 />
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="numPeople" name="Number of People" stroke="#3182CE" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />

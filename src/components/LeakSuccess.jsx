@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -50,26 +51,35 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
         };
     })
 
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    const statusLabel = STATUS_MAP[p.statusCode] ?? 'Unknown';
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Sensor: {p.sensor_id}</div>
-            <div>Gateway: {p.gateway_id}</div>
-            <div>Site: {p.site}</div>
-            <div>Sequence Number: {p.seq}</div>
-            <div>Device Address: {p.devAddr}</div>
-            <div>Cable Resistance: {p.statusCode === 1 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : p.wireUnitRes.toFixed(2) + " Ω/m"}</div>
-            <div>Cable Length: {p.statusCode === 1 ? "Disconnected" : p.cableLength.toFixed(2) + " m"}</div>
-            <div>Leak Status: {statusLabel}</div>
-            <div>Leak Position: {p.statusCode === 1 ? "Disconnected" : p.leakPos > 0 ? p.leakPos.toFixed(2) + " m" : "No Leaks"}</div>
-            <div>Wire Connection Status: {p.statusCode === 1 ? "Disconnected" : "Connected"}</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "sensor_id", label: "Sensor ID" },
+        { key: "gateway_id", label: "Gateway ID" },
+        { key: "site", label: "Site" },
+        { key: "seq", label: "Sequence Number" },
+        { key: "devAddr", label: "Device Address" },
+        {
+            key: "wireUnitRes",
+            label: "Cable Resistance",
+            format: (v, p) => p.statusCode === 1 ? "Disconnected" : p.statusCode === 2 ? "Leak Detected" : v.toFixed(2) + " Ω/m",
+        },
+        {
+            key: "cableLength",
+            label: "Cable Length",
+            format: (v, p) => p.statusCode === 1 ? "Disconnected" : v.toFixed(2) + " m",
+        },
+        { key: "statusCode", label: "Leak Status", format: (v) => STATUS_MAP[v] ?? "Unknown" },
+        {
+            key: "leakPos",
+            label: "Leak Position",
+            format: (v, p) => p.statusCode === 1 ? "Disconnected" : v > 0 ? v.toFixed(2) + " m" : "No Leaks",
+        },
+        {
+            key: "statusCode",
+            label: "Wire Connection Status",
+            format: (v) => v === 1 ? "Disconnected" : "Connected",
+        },
+    ]
 
     return(
         <>
@@ -92,7 +102,7 @@ export default function LeakSuccess({pageItems,results,handleBack,handleRefresh}
                     allowDecimals={false}
                     width={140}
                 />
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Leak Status" stroke="#EE4035" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />

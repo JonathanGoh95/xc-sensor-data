@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import * as apiService from '../services/getAPI'
 import { AutoRefreshContext, DEFAULT_REFRESH_INTERVAL } from "../context/AutoRefreshContext"
+import { resolveDeviceID } from "../config/deviceIdOverrides"
 import Search from "./Search"
 import Loading from "./Loading"
 import NoResults from "./NoResults"
@@ -10,6 +11,7 @@ import PacketSuccess from "./PacketSuccess"
 // import KEDSuccess from "./KEDSuccess"
 import PeopleSuccess from "./PeopleSuccess"
 import PeopleMOKOSuccess from "./PeopleMOKOSuccess"
+import VibrationSuccess from "./VibrationSuccess"
 import Pagination from "./Pagination"
 import LightSuccess from "./LightSuccess"
 import PHSuccess from "./pHSuccess"
@@ -24,7 +26,7 @@ import TouchSuccess from "./TouchSuccess"
 // Sensor types whose data comes from the LoRaWAN endpoint (apiService.apiLORAWAN).
 // Everything not listed here uses the default sensor-data endpoint (apiService.api).
 // Add a sensor type to this set to route it through the LoRaWAN backend.
-const LORAWAN_SENSORS = new Set(["peopleMOKO"])
+const LORAWAN_SENSORS = new Set(["peopleMOKO","vibration"])
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('')
@@ -76,9 +78,7 @@ export default function Results(){
     const handleSubmit = async (e) => {
         e.preventDefault()
         let paddedID = sensorType === "pkt" ? "000F" : String(queryID).padStart(4,'0')
-        if (sensorType === "peopleMOKO" && paddedID === "0001"){
-            paddedID = "E8578BFFFF116096"
-        }
+        paddedID = resolveDeviceID(sensorType, paddedID)
         setQueryID(paddedID)
         setSearched(true)
         await fetchResults(query, paddedID)
@@ -143,6 +143,8 @@ export default function Results(){
                         <PeopleSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "peopleMOKO" ?
                         <PeopleMOKOSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "vibration" ?
+                        <VibrationSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pH" ?
                         <PHSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pHChlorine" ?

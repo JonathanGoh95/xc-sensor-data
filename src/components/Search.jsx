@@ -30,7 +30,8 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     {/* <option value="ked">KED Sensor</option> */}
                     <option value="light">Light Sensor</option>
                     <option value="people">People Counter</option>
-                    <option value="peopleMOKO">People Counter (MOKO)</option>
+                    <option value="peopleMOKO">MOKO People Counter (LoRaWAN)</option>
+                    <option value="vibration">WISE-2410 Vibration Sensor (LoRaWAN)</option>
                     <option value="pH">pH Sensor</option>
                     <option value="pHChlorine">pH + Chlorine Sensor</option>
                     <option value="water">Waterflow Sensor</option>

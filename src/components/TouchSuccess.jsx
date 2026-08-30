@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -78,23 +79,16 @@ export default function TouchSuccess({pageItems,results,handleBack,handleRefresh
         };
     })
 
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    const ratingLabel = RATING_MAP[p.rating] ?? 'Unknown';
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Sensor: {p.sensor_id}</div>
-            <div>Gateway: {p.gateway_id}</div>
-            <div>Site: {p.site}</div>
-            <div>Sequence Number: {p.seq}</div>
-            <div>Rating: {ratingLabel}</div>
-            <div>Fault Status: {p.faults}</div>
-            <div>Mode: {p.mode}</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "sensor_id", label: "Sensor ID" },
+        { key: "gateway_id", label: "Gateway ID" },
+        { key: "site", label: "Site" },
+        { key: "seq", label: "Sequence Number" },
+        { key: "rating", label: "Rating", format: (v) => RATING_MAP[v] ?? "Unknown" },
+        { key: "faults", label: "Fault Status" },
+        { key: "mode", label: "Mode" },
+    ]
 
     const RenderCustomDot = (props) => {
     const { cx, cy, payload } = props;
@@ -174,7 +168,7 @@ export default function TouchSuccess({pageItems,results,handleBack,handleRefresh
                     width={80}
                     interval={0}
                 />
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 {/* itemSorter picks legend order independently of draw order below (Legend's
                     payload prop is ignored by Recharts - it always sources from internal state). */}
                 <Legend

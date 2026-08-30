@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -24,17 +25,11 @@ export default function PacketSuccess({pageItems,results,handleBack,handleRefres
         };
     })
     
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Gateway: {p.gateway_id}</div>
-            <div>Sequence Number: {p.seq}</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "gateway_id", label: "Gateway ID" },
+        { key: "seq", label: "Sequence Number" },
+    ]
 
     return(
         <>
@@ -49,7 +44,7 @@ export default function PacketSuccess({pageItems,results,handleBack,handleRefres
                 {/* Left axis for sequence numbers */}
                 <YAxis yAxisId="left" orientation="left" tick={{ fontSize: 15 }} tickFormatter={(v) => v} width={40}/>
                 <YAxis yAxisId="right" orientation="right" width={40}/>
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} />
                 <Line type="linear" dataKey="seq" name="Sequence Number" stroke="#E53E3E" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 </ComposedChart>

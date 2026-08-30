@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -44,28 +45,22 @@ export default function IAQSuccess({pageItems,results,handleBack,handleRefresh})
         };
     })
 
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Sensor: {p.sensor_id}</div>
-            <div>Gateway: {p.gateway_id}</div>
-            <div>Site: {p.site}</div>
-            <div>Sequence Number: {p.seq}</div>
-            <div>Ethanol: {p.etoh} ppm</div>
-            <div>Total VOC: {p.tvoc} ppm</div>
-            <div>Equivalent CO2: {p.eco2} ppm</div>
-            <div>Indoor Air Quality: {p.iaq}</div>
-            <div>CO2: {p.co2} ppm</div>
-            <div>Temperature: {p.temp} °C</div>
-            <div>Humidity: {p.humidity} %</div>
-            <div>Ambient Light: {p.lux} klux</div>
-            <div>PM2.5: {p.pm25} µg/m³</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "sensor_id", label: "Sensor ID" },
+        { key: "gateway_id", label: "Gateway ID" },
+        { key: "site", label: "Site" },
+        { key: "seq", label: "Sequence Number" },
+        { key: "etoh", label: "Ethanol", format: (v) => `${v} ppm` },
+        { key: "tvoc", label: "Total VOC", format: (v) => `${v} ppm` },
+        { key: "eco2", label: "Equivalent CO2", format: (v) => `${v} ppm` },
+        { key: "iaq", label: "Indoor Air Quality" },
+        { key: "co2", label: "CO2", format: (v) => `${v} ppm` },
+        { key: "temp", label: "Temperature", format: (v) => `${v} °C` },
+        { key: "humidity", label: "Humidity", format: (v) => `${v} %` },
+        { key: "lux", label: "Ambient Light", format: (v) => `${v} klux` },
+        { key: "pm25", label: "PM2.5", format: (v) => `${v} µg/m³` },
+    ]
 
     return(
         <>
@@ -87,7 +82,7 @@ export default function IAQSuccess({pageItems,results,handleBack,handleRefresh})
                     allowDecimals={false}
                     width={80}
                 />
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="etoh" name="Ethanol" stroke="#1E90FF" yAxisId="left" strokeWidth={2} dot={{ r: 3 }}/>

@@ -1,4 +1,5 @@
 import RefreshBack from "./RefreshBack";
+import ChartTooltip from "./ChartTooltip";
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -52,22 +53,15 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
         };
     })
 
-    const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload || !payload.length) return null;
-    const p = payload[0].payload;
-    const statusLabel = STATUS_MAP[p.statusCode] ?? 'Unknown';
-    return (
-        <div className="bg-white border p-2 text-sm shadow">
-            <div className="font-bold">{p.datetime}</div>
-            <div>Sensor: {p.sensor_id}</div>
-            <div>Gateway: {p.gateway_id}</div>
-            <div>Site: {p.site}</div>
-            <div>Sequence Number: {p.seq}</div>
-            <div>Status: {statusLabel}</div>
-            <div>Alert: {p.alert}</div>
-        </div>
-    );
-    }
+    const TOOLTIP_FIELDS = [
+        { key: "datetime", bold: true },
+        { key: "sensor_id", label: "Sensor ID" },
+        { key: "gateway_id", label: "Gateway ID" },
+        { key: "site", label: "Site" },
+        { key: "seq", label: "Sequence Number" },
+        { key: "statusCode", label: "Status", format: (v) => STATUS_MAP[v] ?? "Unknown" },
+        { key: "alert", label: "Alert" },
+    ]
     
     return(
         <>
@@ -91,7 +85,7 @@ export default function DWTSuccess({pageItems,results,handleBack,handleRefresh})
                     allowDecimals={false}
                     width={70}
                 />
-                <Tooltip content={CustomTooltip} />
+                <Tooltip wrapperStyle={{ zIndex: 10 }} content={(p) => <ChartTooltip {...p} fields={TOOLTIP_FIELDS} />} />
                 <Legend wrapperStyle={{ marginTop: '20px' }} itemSorter={() => 0}/>
                 <Line type="monotone" dataKey="seq" name="Sequence Number" stroke="#FFFF00" yAxisId="left" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="stepAfter" dataKey="statusCode" name="Water Level Status" stroke="#E53E3E" yAxisId="right" strokeWidth={2} dot={{ r: 3 }} />
