@@ -83,7 +83,7 @@ export default function VibrationSuccess({pageItems,results,handleBack,handleRef
 
     return(
         <>
-            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">WISE-2410 Vibration (LoRaWAN) Sensor Data</h1>
+            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Vibration (LoRaWAN) Sensor Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0">

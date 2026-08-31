@@ -25,8 +25,8 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                 <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2 hover:cursor-pointer text-center" name="sensorType" defaultValue={sensorType} value={sensorType} onChange={({target})=>setSensorType(target.value)} required>
                     <option value="" disabled hidden>Select Sensor</option>
                     <option value="pkt">Heltec Packet Sender</option>
-                    <option value="peopleMOKO">MOKO People Counter (LoRaWAN)</option>
-                    <option value="vibration">WISE-2410 Vibration Sensor (LoRaWAN)</option>
+                    <option value="peopleMOKO">People Counter (LoRaWAN)</option>
+                    <option value="vibration">Vibration Sensor (LoRaWAN)</option>
                     <option value="dwt">DWT Sensor</option>
                     <option value="bin">Bin Sensor</option>
                     {/* <option value="ked">KED Sensor</option> */}
