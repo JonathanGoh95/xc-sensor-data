@@ -23,7 +23,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
         const devEUI = res.payload?.end_device_ids?.dev_eui;
         const devAddr = res.payload?.end_device_ids?.dev_addr;
         const sequenceNumber = res.payload?.uplink_message?.f_cnt || 0;
-        const sensorID = res.payload?.end_device_ids?.application_ids?.application_id?.slice(3) || '';
+        const deviceID = res.payload?.end_device_ids?.device_id?.slice(4) || '';
         const numPeople = Math.ceil(parseInt(res.payload?.uplink_message?.decoded_payload?.extraBytes, 16) / 2) || 0;
         const lowBattery = res.payload?.uplink_message?.decoded_payload?.lowBattery;
         let statusCode = 2; // default -> Anomaly
@@ -36,7 +36,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
             time: new Date(res.created_at).toLocaleTimeString(),
             datetime: new Date(res.created_at).toLocaleString(),
             seq: sequenceNumber,
-            sensorID,
+            deviceID,
             numPeople,
             lowBattery,
             statusCode,
@@ -48,7 +48,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
         { key: "devEUI", label: "Device EUI" },
         { key: "devAddr", label: "Device Address" },
         { key: "gateway_eui", label: "Gateway EUI" },
-        { key: "sensorID", label: "Sensor ID" },
+        { key: "deviceID", label: "Device ID" },
         { key: "seq", label: "Sequence Number" },
         { key: "numPeople", label: "Number of People" },
         { key: "statusCode", label: "Low Battery Status", format: (v) => STATUS_MAP[v] ?? "Unknown" },
@@ -87,7 +87,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
                     const sequenceNumber = res.payload?.uplink_message?.f_cnt || 0;
-                    const sensorID = res.payload?.end_device_ids?.application_ids?.application_id?.slice(3) || '';
+                    const deviceID = res.payload?.end_device_ids?.device_id?.slice(4) || '';
                     const numPeople = Math.ceil(parseInt(res.payload?.uplink_message?.decoded_payload?.extraBytes, 16) / 2) || 0;
                     const lowBattery = res.payload?.uplink_message?.decoded_payload?.lowBattery === true ? "True" : "False";
                     return (
@@ -95,7 +95,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
                             <p><span className="font-bold">Device EUI:</span> {res.payload?.end_device_ids?.dev_eui}</p>
                             <p><span className="font-bold">Device Address:</span> {res.payload?.end_device_ids?.dev_addr}</p>
                             <p><span className="font-bold">Gateway EUI:</span> {res.payload?.uplink_message?.rx_metadata?.[0]?.gateway_ids?.eui}</p>
-                            <p><span className="font-bold">Sensor ID:</span> {sensorID}</p>
+                            <p><span className="font-bold">Device ID:</span> {deviceID}</p>
                             <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
                             <p><span className="font-bold">Received At:</span> {new Date(res.payload?.received_at).toLocaleString()}</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>
