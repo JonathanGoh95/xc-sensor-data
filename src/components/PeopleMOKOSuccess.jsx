@@ -24,7 +24,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
         const devAddr = res.payload?.end_device_ids?.dev_addr;
         const sequenceNumber = res.payload?.uplink_message?.f_cnt || 0;
         const sensorID = res.payload?.end_device_ids?.application_ids?.application_id?.slice(3) || '';
-        const numPeople = parseInt(res.payload?.uplink_message?.decoded_payload?.extraBytes, 16) || 0;
+        const numPeople = Math.ceil(parseInt(res.payload?.uplink_message?.decoded_payload?.extraBytes, 16) / 2) || 0;
         const lowBattery = res.payload?.uplink_message?.decoded_payload?.lowBattery;
         let statusCode = 2; // default -> Anomaly
         if (lowBattery === false) statusCode = 0;
@@ -88,7 +88,7 @@ export default function PeopleMOKOSuccess({pageItems,results,handleBack,handleRe
                 {pageItems.map((res) => {
                     const sequenceNumber = res.payload?.uplink_message?.f_cnt || 0;
                     const sensorID = res.payload?.end_device_ids?.application_ids?.application_id?.slice(3) || '';
-                    const numPeople = parseInt(res.payload?.uplink_message?.decoded_payload?.extraBytes, 16) || 0;
+                    const numPeople = Math.ceil(parseInt(res.payload?.uplink_message?.decoded_payload?.extraBytes, 16) / 2) || 0;
                     const lowBattery = res.payload?.uplink_message?.decoded_payload?.lowBattery === true ? "True" : "False";
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">
