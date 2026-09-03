@@ -14,6 +14,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'soil') setQuery(import.meta.env.VITE_SOIL)
         else if (sensorType === 'float') setQuery(import.meta.env.VITE_FLOAT)
         else if (sensorType === 'leak') setQuery(import.meta.env.VITE_LEAK)
+        else if (sensorType === 'ammonia') setQuery(import.meta.env.VITE_AMMONIA)
         else if (sensorType === 'iaq') setQuery(import.meta.env.VITE_IAQ)
         else if (sensorType === 'touch') setQuery(import.meta.env.VITE_TOUCH)
         else setQuery('')
@@ -38,6 +39,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="soil">Soil Sensor</option>
                     <option value="float">Float Switch Sensor</option>
                     <option value="leak">Leak Sensor</option>
+                    <option value="ammonia">Ammonia Sensor</option>
                     <option value="iaq">IAQ Sensor</option>
                     <option value="touch">Toilet Panel (Touchscreen)</option>
                 </select>

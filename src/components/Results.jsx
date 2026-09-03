@@ -20,6 +20,7 @@ import WaterflowSuccess from "./WaterflowSuccess"
 import SoilSuccess from "./SoilSuccess"
 import FloatSuccess from "./FloatSuccess"
 import LeakSuccess from "./LeakSuccess"
+import AmmoniaSuccess from "./AmmoniaSuccess"
 import IAQSuccess from "./IAQSuccess"
 import TouchSuccess from "./TouchSuccess"
 
@@ -157,6 +158,8 @@ export default function Results(){
                         <FloatSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "leak" ?
                         <LeakSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
+                        sensorType === "ammonia" ?
+                        <AmmoniaSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "iaq" ?
                         <IAQSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "touch" ?
