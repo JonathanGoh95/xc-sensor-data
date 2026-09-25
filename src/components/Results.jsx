@@ -7,6 +7,7 @@ import Loading from "./Loading"
 import NoResults from "./NoResults"
 import DWTSuccess from "./DWTSuccess"
 import BinSuccess from "./BinSuccess"
+import ATPacketSuccess from "./ATPacketSuccess"
 import PacketSuccess from "./PacketSuccess"
 // import KEDSuccess from "./KEDSuccess"
 import PeopleSuccess from "./PeopleSuccess"
@@ -78,7 +79,7 @@ export default function Results(){
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let paddedID = sensorType === "pkt" ? "000F" : String(queryID).padStart(4,'0')
+        let paddedID = sensorType === "pkt" ? "000F" : sensorType === "atpkt" ? "0FFF" : String(queryID).padStart(4,'0')
         paddedID = resolveDeviceID(sensorType, paddedID)
         setQueryID(paddedID)
         setSearched(true)
@@ -130,6 +131,8 @@ export default function Results(){
                 {loading ? <Loading /> : null}
                 {!loading && (
                     results.success === 1 && data.length > 0 ? (
+                        sensorType === "atpkt" ? 
+                        <ATPacketSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "pkt" ? 
                         <PacketSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "dwt" ? 
