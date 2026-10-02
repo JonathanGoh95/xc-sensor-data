@@ -6,6 +6,7 @@
 const DEVICE_ID_OVERRIDES = {
   peopleMOKO: {
     "0001": "E8578BFFFF116096",
+    "0002": "D18393FFFF84503F",
   },
   vibration: {
     // 0002 is at The Warren, but not yet redeployed.
