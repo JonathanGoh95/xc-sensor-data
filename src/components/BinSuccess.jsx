@@ -22,8 +22,12 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
 
     const chartData = pageItems
     .map((res) => {
+        const userAgent = res.user_agent;
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
-        const sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
+        let sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
+        if (userAgent === "lorawan-uplink-webhook"){
+            sequenceNumber += 1;
+        }
         const isFullRaw = parseInt(payloadLast?.slice(25, -16), 16);
         const alert = parseInt(payloadLast?.slice(27, -12), 16);
         const maxCalib = parseInt(payloadLast?.slice(31, -8), 16);
@@ -93,7 +97,12 @@ export default function BinSuccess({pageItems,results,handleBack,handleRefresh})
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-4/5 justify-items-center px-4 md:px-0 py-0 md:py-4">
                 {pageItems.map((res) => {
-                    const sequenceNumber = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(17, -18),16) || '';
+                    const userAgent = res.user_agent;
+                    const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
+                    let sequenceNumber = parseInt(payloadLast?.slice(17, -18), 16) || 0;
+                    if (userAgent === "lorawan-uplink-webhook"){
+                        sequenceNumber += 1;
+                    }
                     const isFullRaw = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(25, -16),16);
                     const alertSessions = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(27, -12),16);
                     const maxCalibVal = parseInt(res.payload?.split(":")[res.payload.split(":").length - 1]?.slice(31, -8),16);
