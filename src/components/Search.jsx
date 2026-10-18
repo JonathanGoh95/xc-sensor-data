@@ -18,6 +18,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'ammonia') setQuery(import.meta.env.VITE_AMMONIA)
         else if (sensorType === 'iaq') setQuery(import.meta.env.VITE_IAQ)
         else if (sensorType === 'touch') setQuery(import.meta.env.VITE_TOUCH)
+        else if (sensorType === 'vibration') setQuery(import.meta.env.VITE_VIBRATION)
         else setQuery('')
     }, [sensorType, setQuery])
 
@@ -30,8 +31,8 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="" disabled hidden>Select Sensor</option>
                     <option value="atpkt">ATmega Packet Sender</option>
                     <option value="pkt">Heltec Packet Sender</option>
-                    <option value="peopleMOKO">People Counter (LoRaWAN)</option>
                     <option value="vibration">Vibration Sensor (LoRaWAN)</option>
+                    <option value="peopleMOKO">People Counter (LoRaWAN)</option>
                     <option value="dwt">DWT Sensor</option>
                     <option value="bin">Bin Sensor</option>
                     {/* <option value="ked">KED Sensor</option> */}

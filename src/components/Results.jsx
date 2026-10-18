@@ -28,7 +28,7 @@ import TouchSuccess from "./TouchSuccess"
 // Sensor types whose data comes from the LoRaWAN endpoint (apiService.apiLORAWAN).
 // Everything not listed here uses the default sensor-data endpoint (apiService.api).
 // Add a sensor type to this set to route it through the LoRaWAN backend.
-const LORAWAN_SENSORS = new Set(["peopleMOKO","vibration"])
+const LORAWAN_SENSORS = new Set(["peopleMOKO"])
 
 export default function Results(){
     const [sensorType,setSensorType] = useState('')
