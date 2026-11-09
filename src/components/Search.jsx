@@ -7,8 +7,8 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'ked') setQuery(import.meta.env.VITE_KED)
         else if (sensorType === 'light') setQuery(import.meta.env.VITE_LIGHT)
         else if (sensorType === 'people') setQuery(import.meta.env.VITE_PEOPLE)
-        else if (sensorType === 'pkt') setQuery(import.meta.env.VITE_PEOPLE)
-        else if (sensorType === 'atpkt') setQuery(import.meta.env.VITE_PEOPLE)
+        else if (sensorType === 'pkt') setQuery(import.meta.env.VITE_PACKET)
+        else if (sensorType === 'atpkt') setQuery(import.meta.env.VITE_PACKET)
         else if (sensorType === 'pH') setQuery(import.meta.env.VITE_PH)
         else if (sensorType === 'pHChlorine') setQuery(import.meta.env.VITE_PH_CHLORINE)
         else if (sensorType === 'water') setQuery(import.meta.env.VITE_WATER)
@@ -21,8 +21,6 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'vibration') setQuery(import.meta.env.VITE_VIBRATION)
         else setQuery('')
     }, [sensorType, setQuery])
-
-    const showLocationID = sensorType !== "" && sensorType !== "pkt" && sensorType !== "atpkt"
 
     return(
             <form className="flex flex-col items-center justify-center gap-4 mt-6 px-4 md:px-0" onSubmit={handleSubmit}>
@@ -48,8 +46,8 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                     <option value="iaq">IAQ Sensor</option>
                     <option value="touch">Toilet Panel (Touchscreen)</option>
                 </select>
-                {showLocationID && <label className="font-bold italic text-xl md:text-2xl">Enter Location ID: </label>}
-                {showLocationID && <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={queryID} type='text' placeholder='Location ID' onChange={({target})=>setQueryID((target.value))} maxLength={4} required></input>}
+                {sensorType !== "" && <label className="font-bold italic text-xl md:text-2xl">Enter Location ID: </label>}
+                {sensorType !== "" && <input className="border-2 text-lg md:text-2xl rounded-lg w-auto text-center" value={queryID} type='text' placeholder='Location ID' onChange={({target})=>setQueryID((target.value))} maxLength={4} required></input>}
                 <button className="border-2 text-lg md:text-2xl rounded-lg pt-2 pb-2 pl-5 pr-5 cursor-pointer italic w-auto hover:cursor-pointer" type="submit">Search</button>
             </form>
         )

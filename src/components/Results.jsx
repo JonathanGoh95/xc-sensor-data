@@ -79,7 +79,7 @@ export default function Results(){
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let paddedID = sensorType === "pkt" ? "000F" : sensorType === "atpkt" ? "0FFF" : String(queryID).padStart(4,'0')
+        let paddedID = String(queryID).trim().toUpperCase().padStart(4,'0')
         paddedID = resolveDeviceID(sensorType, paddedID)
         setQueryID(paddedID)
         setSearched(true)
