@@ -15,12 +15,14 @@ export default function PacketSuccess({pageItems,results,handleBack,handleRefres
     const chartData = pageItems
     .map((res) => {
         const payloadLast = res.payload?.split(":")[res.payload.split(":").length - 1] || "";
+        const locationID = res.sensor_id;
         const sequenceNumber = parseInt(payloadLast?.slice(17, -6), 16) || 0;
 
         return {
             time: new Date(res.created_at).toLocaleTimeString(),
             datetime: new Date(res.created_at).toLocaleString(),
             seq: sequenceNumber,
+            location: locationID,
             gateway_id: res.gateway_id,
         };
     })
@@ -28,12 +30,13 @@ export default function PacketSuccess({pageItems,results,handleBack,handleRefres
     const TOOLTIP_FIELDS = [
         { key: "datetime", bold: true },
         { key: "gateway_id", label: "Gateway ID" },
+        { key: "location", label: "Location ID" },
         { key: "seq", label: "Sequence Number" },
     ]
 
     return(
         <>
-            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Heltec Packet Sender Data</h1>
+            <h1 className="font-bold italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">Packet Sender Data</h1>
             <RefreshBack results={results} handleBack={handleBack} handleRefresh={handleRefresh}/>
             {/* Chart: responsive container that adapts on mobile */}
             <div className="w-full md:w-4/5 h-64 md:h-96 mx-auto px-4 md:px-0">
@@ -56,6 +59,7 @@ export default function PacketSuccess({pageItems,results,handleBack,handleRefres
                     return (
                         <div key={res.id} className="flex flex-col justify-center border-2 gap-2 p-3 md:p-2 text-center w-full rounded-md text-sm md:text-xl">
                             <p><span className="font-bold">Gateway ID:</span> {res.gateway_id}</p>
+                            <p><span className="font-bold">Location ID:</span> {res.sensor_id}</p>
                             <p><span className="font-bold">Created At:</span> {new Date(res.created_at).toLocaleString()}</p>
                             <p><span className="font-bold">Updated At:</span> {new Date(res.updated_at).toLocaleString()}</p>
                             <p><span className="font-bold">Sequence Number:</span> {sequenceNumber}</p>

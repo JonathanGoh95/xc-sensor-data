@@ -8,7 +8,6 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
         else if (sensorType === 'light') setQuery(import.meta.env.VITE_LIGHT)
         else if (sensorType === 'people') setQuery(import.meta.env.VITE_PEOPLE)
         else if (sensorType === 'pkt') setQuery(import.meta.env.VITE_PACKET)
-        else if (sensorType === 'atpkt') setQuery(import.meta.env.VITE_PACKET)
         else if (sensorType === 'pH') setQuery(import.meta.env.VITE_PH)
         else if (sensorType === 'pHChlorine') setQuery(import.meta.env.VITE_PH_CHLORINE)
         else if (sensorType === 'water') setQuery(import.meta.env.VITE_WATER)
@@ -27,8 +26,7 @@ export default function Search({handleSubmit,setQuery,queryID,setQueryID,sensorT
                 <label className="font-bold italic text-xl md:text-2xl">Select Sensor Type: </label>
                 <select className="text-xl md:text-2xl border-2 rounded-lg p-1 px-2 hover:cursor-pointer text-center" name="sensorType" defaultValue={sensorType} value={sensorType} onChange={({target})=>setSensorType(target.value)} required>
                     <option value="" disabled hidden>Select Sensor</option>
-                    <option value="atpkt">ATmega Packet Sender</option>
-                    <option value="pkt">Heltec Packet Sender</option>
+                    <option value="pkt">Packet Sender</option>
                     <option value="vibration">Vibration Sensor (LoRaWAN)</option>
                     <option value="peopleMOKO">People Counter (LoRaWAN)</option>
                     <option value="dwt">DWT Sensor</option>

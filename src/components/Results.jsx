@@ -7,7 +7,6 @@ import Loading from "./Loading"
 import NoResults from "./NoResults"
 import DWTSuccess from "./DWTSuccess"
 import BinSuccess from "./BinSuccess"
-import ATPacketSuccess from "./ATPacketSuccess"
 import PacketSuccess from "./PacketSuccess"
 // import KEDSuccess from "./KEDSuccess"
 import PeopleSuccess from "./PeopleSuccess"
@@ -131,9 +130,7 @@ export default function Results(){
                 {loading ? <Loading /> : null}
                 {!loading && (
                     results.success === 1 && data.length > 0 ? (
-                        sensorType === "atpkt" ? 
-                        <ATPacketSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
-                        sensorType === "pkt" ? 
+                        sensorType === "pkt" ?
                         <PacketSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
                         sensorType === "dwt" ? 
                         <DWTSuccess pageItems={pageItems} results={results} handleBack={handleBack} handleRefresh={handleRefresh}/> :
